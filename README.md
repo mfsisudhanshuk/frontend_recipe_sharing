@@ -48,14 +48,22 @@ src/
 
 > Home page
 
+![Screenshot from 2024-11-06 18-53-11](https://github.com/user-attachments/assets/52c72bc2-00f6-4985-b189-ac4ddfa3bc4e)
+
 
 > Detail Page
+![Screenshot from 2024-11-06 17-57-54](https://github.com/user-attachments/assets/2368925e-e877-4e6c-8767-78f66b340033)
+
 
 
 > Register Page
 
+![Screenshot from 2024-11-06 18-54-06](https://github.com/user-attachments/assets/4fe3030e-42a6-485f-9e2c-05beefa1aea5)
+
 
 > Login Page
+
+![Screenshot from 2024-11-06 18-53-32](https://github.com/user-attachments/assets/c953b3b1-7849-448a-a5c4-d5e2d89b14fe)
 
 
 ## How to start the Project

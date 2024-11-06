@@ -1,4 +1,10 @@
 export const MENU_ITEMS = [
-  "Home",
-  "Add Recipe",
+  {
+    url: '/',
+    menu: "Home"
+  },
+  {
+    url: '/add-recipe',
+    menu: "Add Recipe"
+  }
 ];
