@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MENU_ITEMS } from "../utils/constan";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NavMenu = ({
   isOpen,
@@ -30,12 +31,12 @@ const NavMenu = ({
     </button>
     <ul className="flex flex-col gap-4 items-center lg:flex-row lg:items-center lg:space-x-8">
       {MENU_ITEMS.map((item) => (
-        <li key={item}>
+        <li key={item.menu}>
           <Link
-            to="#"
+            to={item.url}
             className="text-gray-700 hover:text-blue-500 lg:text-base font-medium block"
           >
-            {item}
+            {item.menu}
           </Link>
         </li>
       ))}
@@ -47,6 +48,9 @@ export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const navigate = useNavigate();
+
 
   return (
     <header className="flex justify-between items-center py-4 px-6 bg-white shadow-md">
@@ -79,10 +83,10 @@ export const Header = () => {
 
       {/* Action Buttons on the right */}
       <div className="hidden lg:flex items-center space-x-4">
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+        <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" onClick={() => navigate("/login")}>
           Login
         </button>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+        <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" onClick={() => navigate("/register")}>
           Sign Up
         </button>
       </div>
