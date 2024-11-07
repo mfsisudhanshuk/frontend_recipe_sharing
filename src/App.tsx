@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import { RecipeDetail } from "./pages/Recipe/RecipeDetail";
 import { Login } from "./pages/User/Login";
 import { Register } from "./pages/User/Register";
+import { AddRecipe } from "./pages/Home/AddRecipe";
 
 
 function App() {
@@ -15,8 +16,7 @@ function App() {
           <Route path="/recipe/:id" element={<RecipeDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* TODO: Update component to addRecipe */}
-          <Route path="/add-recipe" element={<RecipeDetail />} /> 
+          <Route path="/add-recipe" element={<AddRecipe />} /> 
         </Route>
       </Routes>
     </Router>
