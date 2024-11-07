@@ -1,4 +1,8 @@
+import { useState } from 'react';
 import image2 from '../../assets/image-2.jpg';
+import { CommentForm } from './CommentRecipe';
+import { Comment } from './Comment';
+
 
 // TODO:  Mock data example (remove if fetching from an API)
 const recipeData = {
@@ -11,8 +15,40 @@ const recipeData = {
   image: image2,
 };
 
+interface CommentType {
+  username: string;
+  text: string;
+  timestamp: string;
+}
+
+
 export const RecipeDetail = () => {
   const recipe = recipeData; // Replace with fetched data based on `id`
+
+  // TODO: Update with real data
+  const [comments, setComments] = useState<CommentType[]>([
+    {
+      username: 'Jane Doe',
+      text: 'This recipe was amazing!',
+      timestamp: '2024-11-05 10:30 AM',
+    },
+    {
+      username: 'John Smith',
+      text: 'Easy to follow, turned out great!',
+      timestamp: '2024-11-05 11:00 AM',
+    },
+  ]);
+
+  const addComment = (username: string, text: string) => {
+    const newComment = {
+      username,
+      text,
+      timestamp: new Date().toLocaleString(),
+    };
+    setComments([...comments, newComment]);
+  };
+
+  
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -60,6 +96,27 @@ export const RecipeDetail = () => {
 
         {/* Horizontal line separator */}
         <hr className="mt-8 border-gray-300" />
+
+        {/* Comment Section */}
+      <section className="mt-8">
+        <h2 className="text-2xl font-semibold mb-4">Comments</h2>
+
+        {/* Comment Form */}
+        <CommentForm onAddComment={addComment} />
+
+        {/* List of Comments */}
+        <div>
+          {comments.map((comment, index) => (
+            <Comment
+              key={index}
+              username={comment.username}
+              text={comment.text}
+              timestamp={comment.timestamp}
+            />
+          ))}
+        </div>
+      </section>
+      
       </div>
     </div>
   );
