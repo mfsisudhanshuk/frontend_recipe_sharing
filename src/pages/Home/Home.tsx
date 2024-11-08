@@ -26,8 +26,6 @@ export const Home = () => {
     setLoading(true);
     setError(null);
     try {
-       // Delay the loading state for 1 minute
-    await new Promise(resolve => setTimeout(resolve, 60000))
       const data = await getAllRecipes(ingredient);
       setRecipes(data.data);
     } catch (error: any) {
