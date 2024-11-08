@@ -2,8 +2,6 @@
 import axiosInstance from "./axiosInstance";
 
 // NOTE: Add recipe service 
-
-
 export const getAllRecipes = async (ingredient='') => {
   try {
     const response = await axiosInstance.get("/recipes",{
