@@ -31,12 +31,12 @@ const NavMenu = ({
     </button>
     <ul className="flex flex-col gap-4 items-center lg:flex-row lg:items-center lg:space-x-8">
       {MENU_ITEMS.map((item) => (
-        <li key={item.menu}>
+        <li key={item.MENU}>
           <Link
-            to={item.url}
+            to={item.URL}
             className="text-gray-700 hover:text-blue-500 lg:text-base font-medium block"
           >
-            {item.menu}
+            {item.MENU}
           </Link>
         </li>
       ))}
@@ -55,9 +55,12 @@ export const Header = () => {
   return (
     <header className="flex justify-between items-center py-4 px-6 bg-white shadow-md">
       {/* Logo on the left */}
-      <a href="/" className="flex-shrink-0">
+       <Link
+        to="/"
+        className="text-xl font-bold text-gray-800 hover:text-blue-500"
+      >
         Recipes
-      </a>
+      </Link>
 
       {/* Desktop & Mobile Menu Toggle */}
       <div className="lg:hidden">
@@ -70,9 +73,9 @@ export const Header = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             ></path>
           </svg>
         </button>

@@ -19,6 +19,12 @@ const validationSchema = Yup.object({
     .required("Confirm Password is required"),
 });
 
+// TODO : Update the type.
+const handleSubmit = (values: any) => {
+  // TODO: ConfirmPassword is client side validation do not needed in payload.
+  console.log("User registration data submitted:", values);
+};
+
 export const Register = () => {
   return (
     <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-md mt-20">
@@ -34,9 +40,7 @@ export const Register = () => {
           confirmPassword: "",
         }}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log("Form data", values);
-        }}
+        onSubmit={handleSubmit}
       >
         <Form>
           <Input
