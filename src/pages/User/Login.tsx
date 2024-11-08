@@ -32,8 +32,6 @@ export const Login = () => {
 
     const result = await loginUser({ email, password }, dispatch);
 
-    console.log('result .. in login submit ', result);
-
     if (result.success) {
       setSuccessMessage(result.message);
       navigate("/"); // Redirect to home

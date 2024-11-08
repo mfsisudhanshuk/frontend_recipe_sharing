@@ -17,7 +17,7 @@ interface RegisterData {
 export const loginUser = async (loginData: LoginData, dispatch: AppDispatch) => {
   try {
     const response = await axiosInstance.post("/auth/login", loginData);
-    console.log('login in service ', response?.data?.data?.token);
+   
     const token = response?.data?.data?.token;
 
     // Dispatch login action
