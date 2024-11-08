@@ -74,3 +74,7 @@ export const RECIPE_MESSAGES = {
 
 
 export const EMAIL_REGED = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+export const BASE_URL = "http://localhost:8000/api/v1";
+
+export const IMAGE_PLACEHOLDER = 'https://via.placeholder.com/350x150';
