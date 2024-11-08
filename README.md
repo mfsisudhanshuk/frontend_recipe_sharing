@@ -68,10 +68,15 @@ src/
 
 ## How to start the Project
 
+1. git clone <clone-url>
+2. Go inside project-folder
+3. Run command `npm i`
+4. To start the project run  command `npm  start`.
+
 
 
 ## Contribution guidelines
-
+- Updated soon.
 
 
 ## Important notes about the project

@@ -5,7 +5,6 @@ import { getAllRecipes } from "../../services/recipeService";
 import { Loader } from "../../components/common/Loader";
 import ErrorMessage from "../../components/common/ErrorMessage";
 import { Empty } from "../../components/common/Empty";
-
 interface Recipe {
   id: number;
   title: string;
