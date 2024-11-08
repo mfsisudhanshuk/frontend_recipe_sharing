@@ -18,7 +18,7 @@ interface Recipe {
 
 export const Home = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [searchIngredient, setSearchIngredient] = useState<string>("");
 
