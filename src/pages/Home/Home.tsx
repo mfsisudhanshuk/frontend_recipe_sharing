@@ -4,6 +4,7 @@ import { Button } from "../../components/common/Button";
 import { getAllRecipes } from "../../services/recipeService";
 import { Loader } from "../../components/common/Loader";
 import ErrorMessage from "../../components/common/ErrorMessage";
+import { Empty } from "../../components/common/Empty";
 
 interface Recipe {
   id: number;
@@ -15,45 +16,48 @@ interface Recipe {
   image?: string;
 }
 
-const Home = () => {
+export const Home = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchIngredient, setSearchIngredient] = useState<string>("");
+
+  const fetchRecipes = async (ingredient = "") => {
+    setLoading(true);
+    setError(null);
+    try {
+       // Delay the loading state for 1 minute
+    await new Promise(resolve => setTimeout(resolve, 60000))
+      const data = await getAllRecipes(ingredient);
+      setRecipes(data.data);
+    } catch (error: any) {
+      setError("Failed to fetch recipes: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const data = await getAllRecipes();
-        setRecipes(data.data); // Assuming the API response has { data: Recipe[] }
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchRecipes();
   }, []);
 
   if (loading) return <Loader />;
-  if (error) return <ErrorMessage message={error}/>
+  if (error) return <ErrorMessage message={error} />;
 
-  const handleSearch = () => {
-    // Here you can trigger any search-specific logic
-    console.log("Searching for:", searchTerm);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchIngredient(e.target.value);
   };
 
-  const handleSearchInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchTerm(event.target.value);
+  const handleSearchClick = () => {
+    fetchRecipes(searchIngredient);
   };
 
-  // Filter recipes based on search term
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+   // Handler for Enter key press
+   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearchClick();
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 mt-10">
@@ -62,21 +66,21 @@ const Home = () => {
       <div className="mb-6 flex flex-col md:flex-row md:items-center gap-4">
         <input
           type="text"
-          value={searchTerm}
-          onChange={handleSearchInputChange}
+          value={searchIngredient}
+          onChange={handleSearchChange}
+          onKeyDown={handleKeyDown}
           placeholder="Search recipes..."
           className="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
         />
-        <Button onClick={handleSearch}>Search</Button>
+        <Button onClick={handleSearchClick}>Search</Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
+        {recipes.length === 0 && <Empty />}
       </div>
     </div>
   );
 };
-
-export default Home;
