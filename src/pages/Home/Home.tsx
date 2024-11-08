@@ -6,12 +6,13 @@ import { Loader } from "../../components/common/Loader";
 import ErrorMessage from "../../components/common/ErrorMessage";
 import { Empty } from "../../components/common/Empty";
 interface Recipe {
-  id: number;
+  _id: string;
   title: string;
   ingredients: string[];
   preparationTime: number;
   steps: string;
   rating: number;
+  ratingCount?: number;
   image?: string;
 }
 
@@ -26,6 +27,7 @@ export const Home = () => {
     setError(null);
     try {
       const data = await getAllRecipes(ingredient);
+      console.log('data ',data)
       setRecipes(data.data);
     } catch (error: any) {
       setError("Failed to fetch recipes: " + error.message);
@@ -37,9 +39,6 @@ export const Home = () => {
   useEffect(() => {
     fetchRecipes();
   }, []);
-
-  if (loading) return <Loader />;
-  if (error) return <ErrorMessage message={error} />;
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchIngredient(e.target.value);
@@ -55,6 +54,9 @@ export const Home = () => {
       handleSearchClick();
     }
   };
+
+  if (loading) return <Loader />;
+  if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className="container mx-auto px-4 mt-10">
@@ -74,7 +76,7 @@ export const Home = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
+          <RecipeCard key={recipe?._id} recipe={recipe} />
         ))}
         {recipes.length === 0 && <Empty />}
       </div>
