@@ -2,6 +2,8 @@ import { useState } from "react";
 import { MENU_ITEMS } from "../utils/constan";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions, RootState } from "../store";
 
 const NavMenu = ({
   isOpen,
@@ -49,8 +51,17 @@ export const Header = () => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // TODO: REMOVE ONCE INTEGRATED WITH COMMENT AND LIKE
+  const isLogin = useSelector((state: RootState) => state.auth.isLogin);
+
+  const handleLogout = () => {
+    dispatch(authActions.logout());
+    navigate("/login"); // Redirect to login page after logout
+  };
+  
 
   return (
     <header className="flex justify-between items-center py-4 px-6 bg-white shadow-md">
@@ -86,12 +97,29 @@ export const Header = () => {
 
       {/* Action Buttons on the right */}
       <div className="hidden lg:flex items-center space-x-4">
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" onClick={() => navigate("/login")}>
-          Login
-        </button>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" onClick={() => navigate("/register")}>
-          Sign Up
-        </button>
+         {isLogin ? (
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        ) : (
+          <>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              onClick={() => navigate("/register")}
+            >
+              Sign Up
+            </button>
+          </>
+        )}
       </div>
     </header>
   );
