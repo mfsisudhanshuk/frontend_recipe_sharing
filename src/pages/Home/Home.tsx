@@ -27,7 +27,6 @@ export const Home = () => {
     setError(null);
     try {
       const data = await getAllRecipes(ingredient);
-      console.log('data ',data)
       setRecipes(data.data);
     } catch (error: any) {
       setError("Failed to fetch recipes: " + error.message);
