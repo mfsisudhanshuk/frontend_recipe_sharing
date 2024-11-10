@@ -1,35 +1,31 @@
-// components/CommentForm.tsx
 import React, { useState } from "react";
 import { Button } from "../../components/common/Button";
 
 interface CommentFormProps {
-  onAddComment: (username: string, text: string) => void;
+  onAddComment: (userId: string, text: string) => Promise<void>;
+  id: string;
 }
 
-export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment }) => {
-  const [username, setUsername] = useState("");
+export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment,id }) => {
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username && text) {
-      onAddComment(username, text);
-      setUsername("");
+    if (!text) return;
+    try {
+      setLoading(true);
+      await onAddComment(id, text);
       setText("");
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="mb-6">
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Your Name"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-        />
-      </div>
       <div className="mb-4">
         <textarea
           placeholder="Add a comment..."
@@ -39,7 +35,9 @@ export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment }) => {
           rows={4}
         />
       </div>
-      <Button type="submit" onClick={()=>handleSubmit}>Submit</Button>
+      <Button type="submit" disabled={loading}>
+        {loading ? "Submitting..." : "Submit"}
+      </Button>
     </form>
   );
 };

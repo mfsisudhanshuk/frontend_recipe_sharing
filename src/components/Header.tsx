@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MENU_ITEMS } from "../utils/constan";
+import { MENU_ITEMS } from "../utils/constants";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -54,12 +54,11 @@ export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // TODO: REMOVE ONCE INTEGRATED WITH COMMENT AND LIKE
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);
 
   const handleLogout = () => {
     dispatch(authActions.logout());
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login");
   };
   
 
