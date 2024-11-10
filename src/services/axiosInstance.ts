@@ -1,6 +1,6 @@
 // src/utils/axiosInstance.ts
 import axios from "axios";
-import { BASE_URL } from "../utils/constan";
+import { BASE_URL } from "../utils/constants";
 
 
 const axiosInstance = axios.create({
