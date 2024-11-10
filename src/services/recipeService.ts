@@ -1,10 +1,21 @@
 // src/services/recipeService.ts
+import { authAxiosInstance } from "./authAxiosInstance";
 import axiosInstance from "./axiosInstance";
 
-// NOTE: Get all recipes service 
-export const getAllRecipes = async (ingredient='') => {
+// NOTE: Add recipe by id service
+export const createRecipe = async (data: FormData) => {
   try {
-    const response = await axiosInstance.get("/recipes",{
+    const response = await authAxiosInstance.post(`/recipe`, data);
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// NOTE: Get all recipes service
+export const getAllRecipes = async (ingredient = "") => {
+  try {
+    const response = await axiosInstance.get("/recipes", {
       params: { ingredient },
     });
     return response.data;
@@ -13,7 +24,7 @@ export const getAllRecipes = async (ingredient='') => {
   }
 };
 
-// NOTE: Add recipe by id service 
+// NOTE: Add recipe by id service
 export const getRecipeById = async (id: string) => {
   try {
     const response = await axiosInstance.get(`/recipe/${id}`);
@@ -23,7 +34,7 @@ export const getRecipeById = async (id: string) => {
   }
 };
 
-// NOTE: Add rating recipe service 
+// NOTE: Add rating recipe service
 export const updateRecipeRate = async (id: string, rating: number) => {
   try {
     const response = await axiosInstance.get(`recipes/${id}/rating`);
@@ -32,5 +43,3 @@ export const updateRecipeRate = async (id: string, rating: number) => {
     throw error;
   }
 };
-
-

@@ -1,6 +1,6 @@
 // services/authAxiosInstance.ts
 import axios from "axios";
-import { BASE_URL } from "../utils/constan";
+import { BASE_URL } from "../utils/constants";
 
 // Create an authenticated Axios instance
 export const authAxiosInstance = axios.create({

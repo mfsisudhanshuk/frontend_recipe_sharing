@@ -1,6 +1,6 @@
 // components/Comment.tsx
 import React from 'react';
-import { convertToIST } from '../../utils/formatData';
+import { convertToIST } from '../../utils/formatDate';
 
 interface CommentProps {
   name: string;
