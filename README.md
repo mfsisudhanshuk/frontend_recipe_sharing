@@ -46,10 +46,11 @@ src/
 
 ## Screenshot
 
-> Home page
+> Desktop 
 
-![Screenshot from 2024-11-06 18-53-11](https://github.com/user-attachments/assets/52c72bc2-00f6-4985-b189-ac4ddfa3bc4e)
+> Home page with filter 
 
+![Screenshot from 2024-11-11 22-23-47](https://github.com/user-attachments/assets/b77a94ca-1de2-438a-b2fe-3c92cc55f7c8)
 
 > Detail Page
 ![Screenshot from 2024-11-06 17-57-54](https://github.com/user-attachments/assets/2368925e-e877-4e6c-8767-78f66b340033)
@@ -66,6 +67,12 @@ src/
 ![Screenshot from 2024-11-06 18-53-32](https://github.com/user-attachments/assets/c953b3b1-7849-448a-a5c4-d5e2d89b14fe)
 
 
+> Mobile
+
+![Screenshot from 2024-11-11 22-37-08](https://github.com/user-attachments/assets/85a0021a-73ee-45ff-966f-6b60ac1415d7)
+
+
+
 ## How to start the Project
 
 1. git clone <clone-url>
@@ -74,12 +81,41 @@ src/
 4. To start the project run  command `npm  start`.
 
 
-
 ## Contribution guidelines
-- Updated soon.
+
+1. ```Fork and Clone``` the repository. Set upstream: git remote add upstream <original-repo-url>.
+
+2. ``` Branching:``` Create feature branches from development branch using ` git checkout -b feature/<feature-name>`.
+
+3. ``` Naming Convention:``` Use `feature/<feature-name>`, `fix/<bug-description>`, and `hotfix/<issue-description>`.
+
+4. `Commit Message:` Give some meaningful message
+
+5. `Pull Requests:` Create PR to development with a clear title, description, and linked issue number. Assign a reviewer.
+
+6. `Merge Process:` Wait for review and approval. Do not merge directly to main.
+
+7. `Notify Start:` Email mfsi.sudhanshuk@gmail.com with your GitHub username and task before starting.
+
+8. `Update Fork:` Sync with upstream regularly: git pull upstream development and git push origin development.
+
+9. `Issue Reporting:` For bugs or features, create an issue in the repository.
+
+10. `Code of Conduct:` Maintain respectful communication and provide constructive feedback.
+
+11. Useful Commands:
+
+```
+Install dependencies: npm install
+Start dev server: npm start
+Build project: npm run build
+
+```
+NOTE :- Merging PR, Once reviewed and approved, merge to development branch.
 
 
 ## Important notes about the project
 
+Note :- Backend is repo - [HERE](https://github.com/mfsisudhanshuk/backend_recipe_sharing)
 
 

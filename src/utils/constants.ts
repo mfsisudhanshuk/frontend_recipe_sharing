@@ -37,7 +37,7 @@ export const RECIPE_VALIDATION_ERRORS = {
  */
 export const RECIPE_PLACEHOLDER= {
    TITLE: 'Recipe Title',
-   PREPARATION_TIME: 'Preparation TimE',
+   PREPARATION_TIME: 'Preparation Time',
    STEPS: 'Step-by-step instructions',
    RATING: 'Recipe Rating',
 };
@@ -57,6 +57,54 @@ export const RECIPE_LABEL = {
 };
 
 /**
+ * Validation error messages for Login form fields.
+ * @constant
+ * @type {Object}
+ */
+export const LOGIN_VALIDATION_ERRORS = {
+  EMAIL_INVALID: 'Invalid email address',
+  EMAIL_REQUIRED: 'Email is required',
+  PASSWORD_MIN_LENGTH: 'Password must be at least 8 characters',
+  PASSWORD_REQUIRED: 'Password is required',
+};
+
+/**
+ * Login form fields placeholder.
+ * @constant
+ * @type {Object}
+ */
+export const LOGIN_PLACEHOLDER= {
+  EMAIL: 'Enter your email',
+  PASSWORD: 'Enter your password',
+};
+
+
+/**
+ * Login form fields label.
+ * @constant
+ * @type {Object}
+ */
+export const LOGIN_LABEL = {
+  EMAIL: 'Email',
+  PASSWORD: 'Password',
+};
+
+
+/**
+ * Validation error messages for Register form fields.
+ * @constant
+ * @type {Object}
+ */
+export const REGISTER_VALIDATION_ERRORS = {
+  ...LOGIN_VALIDATION_ERRORS,
+  CONFIRM_PASSWORD: 'Confirm Password is required',
+  CONFIRM_PASSWORD_MATCH: 'Passwords must match',
+  NAME_REQUIRED: 'Name is required',
+
+};
+
+
+/**
  * Success and failure messages for recipe operations.
  * @constant
  * @type {Object}
@@ -71,6 +119,33 @@ export const RECIPE_MESSAGES = {
   DELETE_FAILURE: 'Failed to delete recipe. Please try again.',
   FETCH_FAILURE: 'Failed to fetch recipes. Please check your connection and try again.',
 };
+
+/**
+ * Options for time filters
+ * @constant
+ * @type 
+ */
+ export const PREPARATION_TIME_FILTER_OPTIONS= [
+  { value: 0, label: "Filter by Time" },
+  { value: 15, label: "Up to 15 mins" },
+  { value: 30, label: "Up to 30 mins" },
+  { value: 45, label: "Up to 45 mins" },
+  { value: 60, label: "Up to 60 mins" },
+];
+
+/**
+ * Options for rating filters
+ * @constant
+ * @type 
+ */
+export const RATING_FILTER_OPTIONS = [
+  { value: 0, label: "Filter by Rating" },
+  { value: 1, label: "1 Star & above" },
+  { value: 2, label: "2 Stars & above" },
+  { value: 3, label: "3 Stars & above" },
+  { value: 4, label: "4 Stars & above" },
+  { value: 5, label: "5 Stars" },
+];
 
 
 export const EMAIL_REGED = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
