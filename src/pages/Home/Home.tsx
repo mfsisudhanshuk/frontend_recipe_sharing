@@ -5,6 +5,8 @@ import { getAllRecipes } from "../../services/recipeService";
 import { Loader } from "../../components/common/Loader";
 import ErrorMessage from "../../components/common/ErrorMessage";
 import { Empty } from "../../components/common/Empty";
+import { Select } from "../../components/common/Select";
+import { RATING_FILTER_OPTIONS, PREPARATION_TIME_FILTER_OPTIONS } from "../../utils/constants";
 interface Recipe {
   _id: string;
   title: string;
@@ -39,7 +41,7 @@ export const Home = () => {
 
   useEffect(() => {
     fetchRecipes();
-  }, [searchIngredient, selectedRating, selectedTime]);
+  }, [selectedRating, selectedTime]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchIngredient(e.target.value);
@@ -68,7 +70,6 @@ export const Home = () => {
   return (
     <div className="container mx-auto px-4 mt-10">
       <h1 className="text-2xl font-semibold mb-4">Recipes List</h1>
-      {/* Search and Filter Box */}
       <div className="mb-6 flex flex-col md:flex-row md:items-center gap-4">
         {/* Search box */}
         <input
@@ -81,31 +82,20 @@ export const Home = () => {
         />
 
         {/* Rating Filter */}
-        <select
+        <Select
           value={selectedRating}
           onChange={(e) => setSelectedRating(Number(e.target.value))}
-          className="w-full md:w-1/5 px-4 py-2 border border-gray-300 rounded-lg"
-        >
-          <option value={0}>Filter by Rating</option>
-          <option value={1}>1 Star & above</option>
-          <option value={2}>2 Stars & above</option>
-          <option value={3}>3 Stars & above</option>
-          <option value={4}>4 Stars & above</option>
-          <option value={5}>5 Stars</option>
-        </select>
+          options={RATING_FILTER_OPTIONS}
+          placeholder="Filter by Rating"
+        />
 
         {/* Time Filter */}
-        <select
+        <Select
           value={selectedTime}
           onChange={(e) => setSelectedTime(Number(e.target.value))}
-          className="w-full md:w-1/5 px-4 py-2 border border-gray-300 rounded-lg"
-        >
-          <option value={0}>Filter by Time</option>
-          <option value={15}>Up to 15 mins</option>
-          <option value={30}>Up to 30 mins</option>
-          <option value={45}>Up to 45 mins</option>
-          <option value={60}>Up to 60 mins</option>
-        </select>
+          options={PREPARATION_TIME_FILTER_OPTIONS}
+          placeholder="Filter by Time"
+        />
 
         <Button onClick={handleSearchClick}>Search</Button>
         <Button onClick={clearFilters} className="bg-red-600 hover:bg-red-500">Clear</Button>

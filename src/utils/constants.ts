@@ -72,6 +72,33 @@ export const RECIPE_MESSAGES = {
   FETCH_FAILURE: 'Failed to fetch recipes. Please check your connection and try again.',
 };
 
+/**
+ * Options for time filters
+ * @constant
+ * @type 
+ */
+ export const PREPARATION_TIME_FILTER_OPTIONS= [
+  { value: 0, label: "Filter by Time" },
+  { value: 15, label: "Up to 15 mins" },
+  { value: 30, label: "Up to 30 mins" },
+  { value: 45, label: "Up to 45 mins" },
+  { value: 60, label: "Up to 60 mins" },
+];
+
+/**
+ * Options for rating filters
+ * @constant
+ * @type 
+ */
+export const RATING_FILTER_OPTIONS = [
+  { value: 0, label: "Filter by Rating" },
+  { value: 1, label: "1 Star & above" },
+  { value: 2, label: "2 Stars & above" },
+  { value: 3, label: "3 Stars & above" },
+  { value: 4, label: "4 Stars & above" },
+  { value: 5, label: "5 Stars" },
+];
+
 
 export const EMAIL_REGED = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
