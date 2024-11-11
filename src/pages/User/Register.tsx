@@ -9,20 +9,21 @@ import { Loader } from "../../components/common/Loader";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/common/Button";
 import { registerPayload } from "../../types/user.type";
+import { REGISTER_VALIDATION_ERRORS } from "../../utils/constants";
 
 // Validation Schema with Yup
 const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
+  name: Yup.string().required(REGISTER_VALIDATION_ERRORS.NAME_REQUIRED),
   email: Yup.string().matches(
     /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    "Invalid email address"
+    REGISTER_VALIDATION_ERRORS.EMAIL_INVALID
   ),
   password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
+    .min(8, REGISTER_VALIDATION_ERRORS.PASSWORD_MIN_LENGTH)
+    .required(REGISTER_VALIDATION_ERRORS.PASSWORD_REQUIRED),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords must match")
-    .required("Confirm Password is required"),
+    .oneOf([Yup.ref("password")], REGISTER_VALIDATION_ERRORS.CONFIRM_PASSWORD_MATCH)
+    .required(REGISTER_VALIDATION_ERRORS.CONFIRM_PASSWORD),
 });
 
 export const Register = () => {

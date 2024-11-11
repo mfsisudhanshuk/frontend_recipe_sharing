@@ -37,7 +37,7 @@ export const RECIPE_VALIDATION_ERRORS = {
  */
 export const RECIPE_PLACEHOLDER= {
    TITLE: 'Recipe Title',
-   PREPARATION_TIME: 'Preparation TimE',
+   PREPARATION_TIME: 'Preparation Time',
    STEPS: 'Step-by-step instructions',
    RATING: 'Recipe Rating',
 };
@@ -55,6 +55,54 @@ export const RECIPE_LABEL = {
   RATING: 'Rating (1-5)',
   IMAGE: 'Image',
 };
+
+/**
+ * Validation error messages for Login form fields.
+ * @constant
+ * @type {Object}
+ */
+export const LOGIN_VALIDATION_ERRORS = {
+  EMAIL_INVALID: 'Invalid email address',
+  EMAIL_REQUIRED: 'Email is required',
+  PASSWORD_MIN_LENGTH: 'Password must be at least 8 characters',
+  PASSWORD_REQUIRED: 'Password is required',
+};
+
+/**
+ * Login form fields placeholder.
+ * @constant
+ * @type {Object}
+ */
+export const LOGIN_PLACEHOLDER= {
+  EMAIL: 'Enter your email',
+  PASSWORD: 'Enter your password',
+};
+
+
+/**
+ * Login form fields label.
+ * @constant
+ * @type {Object}
+ */
+export const LOGIN_LABEL = {
+  EMAIL: 'Email',
+  PASSWORD: 'Password',
+};
+
+
+/**
+ * Validation error messages for Register form fields.
+ * @constant
+ * @type {Object}
+ */
+export const REGISTER_VALIDATION_ERRORS = {
+  ...LOGIN_VALIDATION_ERRORS,
+  CONFIRM_PASSWORD: 'Confirm Password is required',
+  CONFIRM_PASSWORD_MATCH: 'Passwords must match',
+  NAME_REQUIRED: 'Name is required',
+
+};
+
 
 /**
  * Success and failure messages for recipe operations.
