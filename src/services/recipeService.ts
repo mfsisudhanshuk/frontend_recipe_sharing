@@ -13,10 +13,10 @@ export const createRecipe = async (data: FormData) => {
 };
 
 // NOTE: Get all recipes service
-export const getAllRecipes = async (ingredient = "") => {
+export const getAllRecipes = async (ingredient = "",time: number = 0, rating: number =0) => {
   try {
     const response = await axiosInstance.get("/recipes", {
-      params: { ingredient },
+      params: { ingredient ,time, rating},
     });
     return response.data;
   } catch (error: any) {
