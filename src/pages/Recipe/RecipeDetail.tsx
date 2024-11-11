@@ -39,8 +39,7 @@ export const RecipeDetail = () => {
     if (!id) return;
     try {
       setLoading(true);
-      const resp = await createComment(userId,  commentText);
-      console.log('resp ', resp);
+      await createComment(userId,  commentText);
       const updatedComments = await getAllComment(id);
       setComments(updatedComments?.data);
     } catch (error) {
@@ -58,8 +57,6 @@ export const RecipeDetail = () => {
             getRecipeById(id),
             getAllComment(id),
           ]);
-          console.log("recipeData ", recipeData);
-          console.log("getComments ", commentsData?.data);
           setRecipe(recipeData);
           setComments(commentsData?.data);
         }

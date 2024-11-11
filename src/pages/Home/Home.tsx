@@ -11,9 +11,9 @@ interface Recipe {
   ingredients: string[];
   preparationTime: number;
   steps: string;
-  rating: number;
-  ratingCount?: number;
+  ratings?: [];
   image?: string;
+  averageRating: number,
 }
 
 export const Home = () => {
