@@ -7,18 +7,21 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/userService";
 import { Toast } from "../../components/common/Toast";
+import { loginPayload } from "../../types/user.type";
+import { Button } from "../../components/common/Button";
+import { LOGIN_LABEL, LOGIN_PLACEHOLDER, LOGIN_VALIDATION_ERRORS } from "../../utils/constants";
 
 // Validation Schema with Yup
 const validationSchema = Yup.object({
   email: Yup.string()
     .matches(
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      "Invalid email address"
+      LOGIN_VALIDATION_ERRORS.EMAIL_INVALID
     )
-    .required("Email is required"),
+    .required(LOGIN_VALIDATION_ERRORS.EMAIL_REQUIRED),
   password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
+    .min(8, LOGIN_VALIDATION_ERRORS.PASSWORD_MIN_LENGTH)
+    .required(LOGIN_VALIDATION_ERRORS.PASSWORD_REQUIRED),
 });
 
 export const Login = () => {
@@ -27,7 +30,7 @@ export const Login = () => {
   const dispatch = useDispatch(); // Get dispatch from Redux
   const navigate = useNavigate();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: loginPayload) => {
     const { email, password } = values;
 
     const result = await loginUser({ email, password }, dispatch);
@@ -58,21 +61,18 @@ export const Login = () => {
           <Input
             name="email"
             type="email"
-            label="Email"
-            placeholder="Enter your email"
+            label={LOGIN_LABEL.EMAIL}
+            placeholder={LOGIN_PLACEHOLDER.EMAIL}
           />
           <Input
             name="password"
             type="password"
-            label="Password"
-            placeholder="Enter your password"
+            label={LOGIN_LABEL.PASSWORD}
+            placeholder={LOGIN_PLACEHOLDER.PASSWORD}
           />
-          <button
-            type="submit"
-            className="w-full mt-4 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
-          >
+          <Button type="submit" className="w-full">
             Login
-          </button>
+          </Button>
         </Form>
       </Formik>
       {error && (

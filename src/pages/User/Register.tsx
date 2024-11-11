@@ -7,20 +7,23 @@ import { registerUser } from "../../services/userService";
 import { Toast } from "../../components/common/Toast";
 import { Loader } from "../../components/common/Loader";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../../components/common/Button";
+import { registerPayload } from "../../types/user.type";
+import { REGISTER_VALIDATION_ERRORS } from "../../utils/constants";
 
 // Validation Schema with Yup
 const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
+  name: Yup.string().required(REGISTER_VALIDATION_ERRORS.NAME_REQUIRED),
   email: Yup.string().matches(
     /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    "Invalid email address"
+    REGISTER_VALIDATION_ERRORS.EMAIL_INVALID
   ),
   password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
+    .min(8, REGISTER_VALIDATION_ERRORS.PASSWORD_MIN_LENGTH)
+    .required(REGISTER_VALIDATION_ERRORS.PASSWORD_REQUIRED),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords must match")
-    .required("Confirm Password is required"),
+    .oneOf([Yup.ref("password")], REGISTER_VALIDATION_ERRORS.CONFIRM_PASSWORD_MATCH)
+    .required(REGISTER_VALIDATION_ERRORS.CONFIRM_PASSWORD),
 });
 
 export const Register = () => {
@@ -28,30 +31,26 @@ export const Register = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  
+
   // Register form submit handler
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: registerPayload) => {
     setLoading(true);
     setError(null);
     try {
-   
       const { confirmPassword, ...userData } = values;
 
       const response = await registerUser(userData);
 
-      if(!response?.error || !response?.errors){
+      if (!response?.error || !response?.errors) {
         setSuccessMessage(response?.message);
         navigate("/");
       }
-
     } catch (error: any) {
       setError(error.message);
-    }
-    finally{
-        setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
-
 
   if (loading) return <Loader />;
 
@@ -96,14 +95,23 @@ export const Register = () => {
             label="Confirm Password"
             placeholder="Confirm your password"
           />
-             {error && <Toast message={error} type="error" onClose={() => setError(null)} />}
-             {successMessage && <Toast message={successMessage} type="success" onClose={() => setSuccessMessage(null)} />}
-          <button
-            type="submit"
-            className="w-full mt-4 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
-          >
+          {error && (
+            <Toast
+              message={error}
+              type="error"
+              onClose={() => setError(null)}
+            />
+          )}
+          {successMessage && (
+            <Toast
+              message={successMessage}
+              type="success"
+              onClose={() => setSuccessMessage(null)}
+            />
+          )}
+          <Button type="submit" className="w-full">
             Register
-          </button>
+          </Button>
         </Form>
       </Formik>
     </div>
