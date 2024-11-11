@@ -43,3 +43,24 @@ export const updateRecipeRate = async (id: string, rating: number) => {
     throw error;
   }
 };
+
+
+// NOTE: Add recipe by id service
+export const uploadRecipeImage = async (file: File) => {
+
+  if (!file) throw new Error("Image file is missing.");
+ 
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const response = await authAxiosInstance.post("/upload", formData,{
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response?.data; // Cloudinary image URL
+  } catch (error) {
+    throw error;
+  }
+};
