@@ -4,10 +4,8 @@ import axiosInstance from "./axiosInstance";
 export const getAllComment = async (id: string) => {
     try {
         const response = await axiosInstance.get(`/comments/recipe/${id}`);
-        console.log('response comments in service ', response);
         return response.data;
       } catch (error) {
-        console.error("Error fetching recipe details:", error);
         throw error;
       }
 };
@@ -18,10 +16,8 @@ export const createComment = async (id: string, comment: string) => {
         const response = await authAxiosInstance.post(`/comments/recipe/${id}`, {
           comment
         });
-        console.log('response comments ', response);
         return response.data;
       } catch (error) {
-        console.error("Error fetching recipe details:", error);
         throw error;
       }
 };

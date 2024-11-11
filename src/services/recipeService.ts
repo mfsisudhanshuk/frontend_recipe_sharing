@@ -35,15 +35,17 @@ export const getRecipeById = async (id: string) => {
 };
 
 // NOTE: Add rating recipe service
-export const updateRecipeRate = async (id: string, rating: number) => {
+// Rate Recipe Service
+export const rateRecipe = async (recipeId: string, rating: number) => {
   try {
-    const response = await axiosInstance.get(`recipes/${id}/rating`);
-    return response?.data?.data;
-  } catch (error) {
-    throw error;
+    const response = await authAxiosInstance.post(`/recipes/${recipeId}/rating`, {
+      rating,
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to rate recipe: " + error.message);
   }
 };
-
 
 // NOTE: Add recipe by id service
 export const uploadRecipeImage = async (file: File) => {
