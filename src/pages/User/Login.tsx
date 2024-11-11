@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/userService";
 import { Toast } from "../../components/common/Toast";
+import { loginPayload } from "../../types/user.type";
+import { Button } from "../../components/common/Button";
 
 // Validation Schema with Yup
 const validationSchema = Yup.object({
@@ -27,7 +29,7 @@ export const Login = () => {
   const dispatch = useDispatch(); // Get dispatch from Redux
   const navigate = useNavigate();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: loginPayload) => {
     const { email, password } = values;
 
     const result = await loginUser({ email, password }, dispatch);
@@ -67,12 +69,9 @@ export const Login = () => {
             label="Password"
             placeholder="Enter your password"
           />
-          <button
-            type="submit"
-            className="w-full mt-4 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
-          >
+          <Button type="submit" className="w-full">
             Login
-          </button>
+          </Button>
         </Form>
       </Formik>
       {error && (
