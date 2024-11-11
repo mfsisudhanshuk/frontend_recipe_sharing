@@ -39,11 +39,9 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
     setLoading(true);
     try {
       const data = await rateRecipe(recipe._id, userRating);
-      console.log("data ", data?.message);
       setSuccessMessage(data?.message);
     } catch (error: any) {
       setError(error.message);
-      console.error(error);
     } finally {
       setLoading(false);
     }
