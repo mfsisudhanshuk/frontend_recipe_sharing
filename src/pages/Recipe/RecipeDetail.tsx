@@ -39,7 +39,7 @@ export const RecipeDetail = () => {
     if (!id) return;
     try {
       setLoading(true);
-      const resp = await createComment(userId,  commentText);
+      await createComment(userId,  commentText);
       const updatedComments = await getAllComment(id);
       setComments(updatedComments?.data);
     } catch (error) {
