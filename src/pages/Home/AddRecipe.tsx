@@ -9,7 +9,7 @@ import {
   RECIPE_LABEL,
   IMAGE_PLACEHOLDER,
 } from "../../utils/constants";
-import { createRecipe } from "../../services/recipeService";
+import { createRecipe, uploadRecipeImage } from "../../services/recipeService";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "../../components/common/Toast";
 import { Loader } from "../../components/common/Loader";
@@ -43,6 +43,8 @@ export const AddRecipe = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
+
   const initialValues: recipeData = {
     title: "",
     ingredients: [""],
@@ -57,6 +59,19 @@ export const AddRecipe = () => {
   const handleSubmit = async (values: recipeData) => {
     setLoading(true);
     try {
+
+      // 1. Upload image to Cloudinary
+      let imageUrl = {
+        data: IMAGE_PLACEHOLDER,
+      };
+      if (values.image) {
+        setImageLoading(true); 
+        imageUrl = await uploadRecipeImage(values.image);
+        if(imageUrl?.data){
+          setImageLoading(false);
+        }
+      }
+      
       // Prepare FormData for file upload
       const formData = new FormData();
       formData.append("title", values.title);
@@ -68,8 +83,7 @@ export const AddRecipe = () => {
       });
 
       if (values.image) {
-        // NOTE: Adding a dummy image if not image is provided.
-        formData.append("image", values.image || IMAGE_PLACEHOLDER) ;
+        formData.append("image", imageUrl?.data || IMAGE_PLACEHOLDER) ;
       }
 
       // Call createRecipe service
@@ -82,11 +96,12 @@ export const AddRecipe = () => {
     }
     finally{
       setLoading(false);
+      setImageLoading(false);
     }
   };
 
 
-  if (loading) return <Loader />;
+  if (loading && !imageLoading ) return <Loader />;
   
   return (
     <>
@@ -251,6 +266,11 @@ export const AddRecipe = () => {
                   }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                 />
+                 {imageLoading && (
+                  <div className="flex items-center mt-2">
+                    <span>Uploading Image...</span>
+                  </div>
+                )}
                 <ErrorMessage
                   name="image"
                   component="div"
