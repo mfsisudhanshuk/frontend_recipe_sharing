@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MENU_ITEMS } from "../utils/constants";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 const NavMenu = ({
   isOpen,
@@ -50,6 +51,8 @@ export const Header = () => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
+  const router = useRouter()
+
   const isLogin = false;
 
   const handleLogout = () => {
@@ -72,7 +75,7 @@ export const Header = () => {
         {isLogin ? (
           <button
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-            // onClick={handleLogout}
+            onClick={() => router.push('/logout')}
           >
             Logout
           </button>
@@ -80,13 +83,13 @@ export const Header = () => {
           <>
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-              //   onClick={() => navigate("/login")}
+              onClick={() => router.push("/login")}
             >
               Login
             </button>
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-              //   onClick={() => navigate("/register")}
+              onClick={() => router.push("/register")}
             >
               Sign Up
             </button>
@@ -129,13 +132,13 @@ export const Header = () => {
           <>
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-              //   onClick={() => navigate("/login")}
+              onClick={() => router.push("/login")}
             >
               Login
             </button>
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-              //   onClick={() => navigate("/register")}
+              onClick={() => router.push("/register")}
             >
               Sign Up
             </button>
