@@ -1,3 +1,4 @@
+
 import { Register } from "@/app/components/SignupForm";
 
 // app/auth/register/page.tsx
