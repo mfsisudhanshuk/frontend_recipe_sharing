@@ -1,121 +1,36 @@
-## Frontend Recipe Sharing
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-- We will build a recipe-sharing platform using the MERN stack (MongoDB, Express, React, Node.js). The platform will allow users to share recipes, search for recipes by ingredients, and rate and comment on other users' recipes.
+## Getting Started
 
-## Folder structure :-
+First, run the development server:
 
-```
-src/
-├── assets/                     # Static files (images, icons, etc.)
-├── components/                 # Reusable components across the app
-│   ├── Button.tsx              # Example of a reusable button component
-│   ├── Card.tsx                # Card component for recipe previews
-│   └── ...                     # Other reusable components
-├── layouts/                    # Layout components
-│   └── MainLayout.tsx          # Main layout component with Header/Footer
-├── pages/                      # Pages for routes
-│   ├── Home/                   # Homepage components
-│   │   ├── Home.tsx            # Homepage main component
-│   │   └── RecipeCard.tsx      # Recipe card for homepage listing
-│   ├── Recipe/                 # Recipe-related pages and components
-│   │   ├── RecipeDetail.tsx    # Recipe detail view
-│   │   ├── AddRecipe.tsx       # Form to add a recipe
-│   │   └── RateRecipe.tsx      # Component for rating a recipe
-│   └── User/                   # User-related pages
-│       ├── Login.tsx           # Login page
-│       ├── Register.tsx        # Registration page
-│       └── Profile.tsx         # User profile page
-├── services/                   # API service functions
-│   ├── api.ts                  # Axios or Fetch instance
-│   ├── recipeService.ts        # Functions for recipe-related API calls
-│   └── userService.ts          # Functions for user-related API calls
-├── store/                      # State management (e.g., using Redux or Context API)
-│   ├── authSlice.ts            # Auth-related state (if using Redux)
-│   └── recipeSlice.ts          # Recipe-related state
-├── styles/                     # Tailwind CSS and global styles
-│   ├── globals.css             # Global CSS and Tailwind base imports
-├── utils/                      # Utility functions and helpers
-│   ├── formatDate.ts           # Function to format dates
-│   ├── validateForm.ts         # Form validation helpers
-│   └── constants.ts            # Constants used across the app
-├── App.tsx                     # Main App component with Routes
-├── main.tsx                    # ReactDOM entry point
-└── index.html                  # HTML template for the app
-
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## Screenshot
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-> Desktop 
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-> Home page with filter 
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-![Screenshot from 2024-11-11 22-23-47](https://github.com/user-attachments/assets/b77a94ca-1de2-438a-b2fe-3c92cc55f7c8)
+## Learn More
 
-> Detail Page
-![Screenshot from 2024-11-06 17-57-54](https://github.com/user-attachments/assets/2368925e-e877-4e6c-8767-78f66b340033)
+To learn more about Next.js, take a look at the following resources:
 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-> Register Page
+## Deploy on Vercel
 
-![Screenshot from 2024-11-06 18-54-06](https://github.com/user-attachments/assets/4fe3030e-42a6-485f-9e2c-05beefa1aea5)
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-
-> Login Page
-
-![Screenshot from 2024-11-06 18-53-32](https://github.com/user-attachments/assets/c953b3b1-7849-448a-a5c4-d5e2d89b14fe)
-
-
-> Mobile
-
-![Screenshot from 2024-11-11 22-37-08](https://github.com/user-attachments/assets/85a0021a-73ee-45ff-966f-6b60ac1415d7)
-
-
-
-## How to start the Project
-
-1. git clone <clone-url>
-2. Go inside project-folder
-3. Run command `npm i`
-4. To start the project run  command `npm  start`.
-
-
-## Contribution guidelines
-
-1. ```Fork and Clone``` the repository. Set upstream: git remote add upstream <original-repo-url>.
-
-2. ``` Branching:``` Create feature branches from development branch using ` git checkout -b feature/<feature-name>`.
-
-3. ``` Naming Convention:``` Use `feature/<feature-name>`, `fix/<bug-description>`, and `hotfix/<issue-description>`.
-
-4. `Commit Message:` Give some meaningful message
-
-5. `Pull Requests:` Create PR to development with a clear title, description, and linked issue number. Assign a reviewer.
-
-6. `Merge Process:` Wait for review and approval. Do not merge directly to main.
-
-7. `Notify Start:` Email mfsi.sudhanshuk@gmail.com with your GitHub username and task before starting.
-
-8. `Update Fork:` Sync with upstream regularly: git pull upstream development and git push origin development.
-
-9. `Issue Reporting:` For bugs or features, create an issue in the repository.
-
-10. `Code of Conduct:` Maintain respectful communication and provide constructive feedback.
-
-11. Useful Commands:
-
-```
-Install dependencies: npm install
-Start dev server: npm start
-Build project: npm run build
-
-```
-NOTE :- Merging PR, Once reviewed and approved, merge to development branch.
-
-
-## Important notes about the project
-
-Note :- Backend is repo - [HERE](https://github.com/mfsisudhanshuk/backend_recipe_sharing)
-
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
