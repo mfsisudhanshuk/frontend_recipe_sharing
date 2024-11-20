@@ -36,12 +36,14 @@ export const Register = () => {
 
   // Register form submit handler
 // Register form submit handler
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleSubmit = async (values: any) => {
     setLoading(true);
     setError(null);
 
     try {
       const { confirmPassword, ...userData } = values;
+      console.log('confirmPassword ',confirmPassword)
       const response = await registerUser(userData);
 
       console.log('response ', response);
@@ -51,7 +53,9 @@ const handleSubmit = async (values: any) => {
         setSuccessMessage('Successful request accepted');
         router.push("/");
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      console.log('error ', error)
       setError("Registration failed. Please try again.");
     } finally {
       setLoading(false);
