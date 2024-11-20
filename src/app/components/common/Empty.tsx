@@ -11,9 +11,11 @@ export const Empty: React.FC = () => {
     style={{ height: "80vh" }}
   >
     <Image
-      src={''}
+      src={'https://via.placeholder.com/350x150'} //TODO: Update it
       alt="No results"
       className="max-w-full max-h-full object-contain"
+      width={200}
+      height={300}
     />
   </div>
   

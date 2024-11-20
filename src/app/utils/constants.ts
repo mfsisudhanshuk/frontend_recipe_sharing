@@ -153,3 +153,37 @@ export const EMAIL_REGED = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const BASE_URL = "http://localhost:8000/api/v1";
 
 export const IMAGE_PLACEHOLDER = 'https://via.placeholder.com/350x150';
+
+// Mock Data
+export const mockRecipes = [
+  {
+    _id: "1",
+    title: "Spaghetti Carbonara",
+    ingredients: ["spaghetti", "egg", "parmesan", "bacon"],
+    preparationTime: 20,
+    steps: "Cook pasta, mix with eggs and cheese, add bacon.",
+    ratings: [4, 5, 3],
+    image: "https://via.placeholder.com/350x150",
+    averageRating: 4.0,
+  },
+  {
+    _id: "2",
+    title: "Grilled Chicken Salad",
+    ingredients: ["chicken", "lettuce", "tomato", "cucumber", "dressing"],
+    preparationTime: 15,
+    steps: "Grill chicken, mix with vegetables, add dressing.",
+    ratings: [5, 4, 4],
+    image: "https://via.placeholder.com/350x150",
+    averageRating: 4.3,
+  },
+  {
+    _id: "3",
+    title: "Chocolate Cake",
+    ingredients: ["flour", "sugar", "cocoa", "eggs", "butter"],
+    preparationTime: 60,
+    steps: "Mix ingredients, bake at 350°F for 30 minutes.",
+    ratings: [5, 5, 4],
+    image: "https://via.placeholder.com/350x150",
+    averageRating: 4.7,
+  },
+];

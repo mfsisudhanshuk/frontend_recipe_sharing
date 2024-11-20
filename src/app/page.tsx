@@ -1,9 +1,7 @@
-import Image from "next/image";
+import Home from "./(pages)/recipe/page";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="text-red-500">
-      <h1 className="font-bold">Welcome to our app, user</h1>
-    </div>
+    <Home />
   );
 }

@@ -20,7 +20,7 @@ interface RecipeCardProps {
   recipe: Recipe;
 }
 
-export const RecipeCard: FC<any> = ({ recipe }) => {
+export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [userRating, setUserRating] = useState<number>(0);
@@ -68,6 +68,8 @@ export const RecipeCard: FC<any> = ({ recipe }) => {
             src={recipe?.image || "/placeholder.jpg"}
             alt={recipe?.title}
             className="w-full h-48 object-cover rounded-md mb-4"
+            width={200}
+            height={300}
           />
           <h2 className="text-lg font-semibold mb-2">{recipe.title}</h2>
           <p className="text-sm text-gray-500">
