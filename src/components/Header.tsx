@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MENU_ITEMS } from "../utils/constan";
+import { MENU_ITEMS } from "../utils/constants";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -54,24 +54,50 @@ export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // TODO: REMOVE ONCE INTEGRATED WITH COMMENT AND LIKE
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);
 
   const handleLogout = () => {
     dispatch(authActions.logout());
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login");
   };
-  
 
   return (
     <header className="flex justify-between items-center py-4 px-6 bg-white shadow-md">
       {/* Logo on the left */}
-       <Link
+      <Link
         to="/"
         className="text-xl font-bold text-gray-800 hover:text-blue-500"
       >
         Recipes
       </Link>
+
+      {/* Action Buttons on the right - Updated for mobile visibility */}
+      <div className="flex items-center space-x-4 lg:hidden">
+        {/* Updated to always show buttons */}
+        {isLogin ? (
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        ) : (
+          <>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              onClick={() => navigate("/register")}
+            >
+              Sign Up
+            </button>
+          </>
+        )}
+      </div>
 
       {/* Desktop & Mobile Menu Toggle */}
       <div className="lg:hidden">
