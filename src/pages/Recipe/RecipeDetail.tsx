@@ -4,8 +4,9 @@ import { Comment } from "./Comment";
 import { useParams } from "react-router-dom";
 import { getRecipeById } from "../../services/recipeService";
 import { Loader } from "../../components/common/Loader";
-import ErrorMessage from "../../components/common/ErrorMessage";
+
 import { createComment, getAllComment } from "../../services/commentService";
+import { Toast } from "../../components/common/Toast";
 
 interface User {
   email: string;
@@ -24,7 +25,7 @@ interface Recipe {
   preparationTime: string;
   ingredients: string[];
   steps: string;
-  rating: string;
+  averageRating: string;
   image: string;
 }
 
@@ -39,11 +40,11 @@ export const RecipeDetail = () => {
     if (!id) return;
     try {
       setLoading(true);
-      await createComment(userId,  commentText);
+      await createComment(userId, commentText);
       const updatedComments = await getAllComment(id);
       setComments(updatedComments?.data);
-    } catch (error) {
-      setError("Failed to add comment.");
+    } catch (error: any) {
+      setError(error?.response?.data?.error || "Failed to add comment.");
     } finally {
       setLoading(false);
     }
@@ -71,10 +72,12 @@ export const RecipeDetail = () => {
   }, [id]);
 
   if (loading) return <Loader />;
-  if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+      {error && (
+        <Toast message={error} type="error" onClose={() => setError(null)} />
+      )}
       {/* Full-width image */}
       <img
         src={recipe?.image}
@@ -89,7 +92,7 @@ export const RecipeDetail = () => {
         {/* Like count */}
         <div className="mt-4 flex items-center gap-4">
           <span className="text-gray-600 font-medium">
-            ❤️ {recipe?.rating} Likes
+            ❤️ {recipe?.averageRating} Likes
           </span>
         </div>
 
@@ -137,7 +140,7 @@ export const RecipeDetail = () => {
               comments?.map((comment, index) => (
                 <Comment
                   key={index}
-                  name={comment?.user?.name || 'NO NAME'}
+                  name={comment?.user?.name || "NO NAME"}
                   commentText={comment?.comment}
                   timestamp={comment?.createdAt}
                 />
