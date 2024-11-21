@@ -71,7 +71,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
           <p className="text-sm text-gray-500">
             Preparation Time: {recipe.preparationTime} mins
           </p>
-          <p className="text-sm mt-2">
+          <p className="text-sm mt-2 truncate">
             Ingredients: {recipe.ingredients.join(", ")}
           </p>
         </Link>
