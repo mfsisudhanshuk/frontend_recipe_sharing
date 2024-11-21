@@ -5,12 +5,12 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY, 
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID, 
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID, 
-  appId:  process.env.NEXT_PUBLIC_MEASUREMENT_ID
+  apiKey: "AIzaSyDj_EKxxhmGb5S5xrX0Kk2vJ20fTVxzs-o",//process.env.NEXT_PUBLIC_FIREBASE_API_KEY, 
+  authDomain: "fir-demo-dcda5.firebaseapp.com", //process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: "fir-demo-dcda5",//process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID, 
+  storageBucket: "fir-demo-dcda5.firebasestorage.app",//process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: "417244002019",//process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID, 
+  appId:  "1:417244002019:web:548f07514e026309e537d6",//process.env.NEXT_PUBLIC_MEASUREMENT_ID
 };
 
 // Initialize Firebase

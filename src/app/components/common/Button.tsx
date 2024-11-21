@@ -14,6 +14,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   type = 'button',
   className = '',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   disabled
 }) => {
   return (

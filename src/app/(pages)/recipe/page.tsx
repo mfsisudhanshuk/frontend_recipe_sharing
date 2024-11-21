@@ -16,7 +16,7 @@ export const dummyRecipes = [
     ingredients: ["Spaghetti", "Eggs", "Pancetta", "Parmesan", "Pepper"],
     preparationTime: 20,
     steps: "Boil pasta, cook pancetta, mix with eggs and cheese, combine.",
-    image: "/images/spaghetti.jpg",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6griJPF5pkyzay8ROTaVoGw4fMiUVp3FwX9KBv3maUT4xbxNI3zv2YeGgvN2JnDk8Y94&usqp=CAU",
     ratings: [4, 5, 3],
     averageRating: 4.0,
   },
@@ -26,7 +26,7 @@ export const dummyRecipes = [
     ingredients: ["Chicken", "Curry Powder", "Onions", "Garlic", "Tomatoes"],
     preparationTime: 40,
     steps: "Sauté onions and garlic, add chicken and spices, simmer with tomatoes.",
-    image: "/images/chicken-curry.jpg",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuYIOU-H88klcyoaRzOnfLNfQApsinGVVXJw&s",
     ratings: [5, 4, 5, 4],
     averageRating: 4.5,
   },
@@ -36,7 +36,7 @@ export const dummyRecipes = [
     ingredients: ["Lettuce", "Croutons", "Parmesan", "Caesar Dressing"],
     preparationTime: 10,
     steps: "Chop lettuce, add croutons and cheese, toss with dressing.",
-    image: "/images/caesar-salad.jpg",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpPxJ3Iuj2aTztKtlflr3e1gG-j1fP-qr2Ag&s",
     ratings: [3, 4, 2],
     averageRating: 3.0,
   },
@@ -66,8 +66,9 @@ const Home = () => {
     try {
       // Set the dummy data as recipes
       setRecipes(dummyRecipes);
-    } catch (err: any) {
-      setError("Failed to load recipes");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setError(`Failed to load recipes ${error}`);
     } finally {
       setLoading(false);
     }

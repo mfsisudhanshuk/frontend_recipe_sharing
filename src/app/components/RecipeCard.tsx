@@ -12,7 +12,7 @@ interface Recipe {
   preparationTime: number;
   steps: string;
   image?: string;
-  ratings?: [];
+  ratings?: number[];
   averageRating: number;
 }
 
@@ -38,7 +38,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
     }
 
     console.log('rating clickec ');
-    // setLoading(true);
+    setLoading(true);
     // try {
     //   const data = await rateRecipe(recipe._id, userRating);
     //   setSuccessMessage(data?.message);

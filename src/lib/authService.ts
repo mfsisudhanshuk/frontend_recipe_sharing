@@ -9,9 +9,9 @@ import {
 } from "firebase/firestore";
 import { db } from "./fireStoreConfig";
 
-import CryptoJS from "crypto-js";
 
 import * as Yup from "yup";
+import { comparePassword, hashPassword } from "@/app/utils/password";
 
 // Validation Schema
 const userSchema = Yup.object().shape({
@@ -32,11 +32,6 @@ const validateUserInput = async (userData: unknown) => {
   } catch (error: any) {
     return { isValid: false, message: error.message };
   }
-};
-
-// Hash the password using email as the salt
-const hashPassword = (password: string, email: string): string => {
-  return CryptoJS.SHA256(password + email).toString();
 };
 
 export const registerUser = async (userData: {
@@ -66,7 +61,8 @@ export const registerUser = async (userData: {
     const userDocRef = doc(usersCollectionRef);
 
     // Generate a salt and hash the password
-    const hashedPassword = hashPassword(email, password);
+    const hashedPassword = await hashPassword(password);
+
 
     await setDoc(userDocRef, {
       id: userDocRef.id,
@@ -114,14 +110,16 @@ export const loginUser = async (userData: {
       return { error: "User not found." };
     }
 
-    // Hash the provided password with the user's email
-    const hashedPassword = hashPassword(password, email);
-    
+    console.log('user.password ', user.password);
+    // Decrypt the stored password using the user's email as the key
+       // Verify the provided password against the stored hash
+       const isPasswordValid = await comparePassword(password, user.password!);
 
-    // Compare the hashed passwords
-    if (hashedPassword !== user.password) {
-      return { error: "Invalid password." };
-    }
+       if (!isPasswordValid) {
+         return { error: "Invalid password." };
+       }
+   
+
     // Successful login
     return {
       message: "Login successful",
