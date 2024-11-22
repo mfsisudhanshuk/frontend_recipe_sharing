@@ -7,43 +7,11 @@ import { Loader } from "@/app/components/common/Loader";
 import { Select } from "@/app/components/common/Select";
 import { RecipeCard } from "@/app/components/RecipeCard";
 import { PREPARATION_TIME_FILTER_OPTIONS, RATING_FILTER_OPTIONS } from "@/app/utils/constants";
+import { getAllRecipes } from "@/lib/recipeService";
 import { useEffect, useState } from "react";
 
-export const dummyRecipes = [
-  {
-    _id: "1",
-    title: "Spaghetti Carbonara",
-    ingredients: ["Spaghetti", "Eggs", "Pancetta", "Parmesan", "Pepper"],
-    preparationTime: 20,
-    steps: "Boil pasta, cook pancetta, mix with eggs and cheese, combine.",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6griJPF5pkyzay8ROTaVoGw4fMiUVp3FwX9KBv3maUT4xbxNI3zv2YeGgvN2JnDk8Y94&usqp=CAU",
-    ratings: [4, 5, 3],
-    averageRating: 4.0,
-  },
-  {
-    _id: "2",
-    title: "Chicken Curry",
-    ingredients: ["Chicken", "Curry Powder", "Onions", "Garlic", "Tomatoes"],
-    preparationTime: 40,
-    steps: "Sauté onions and garlic, add chicken and spices, simmer with tomatoes.",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuYIOU-H88klcyoaRzOnfLNfQApsinGVVXJw&s",
-    ratings: [5, 4, 5, 4],
-    averageRating: 4.5,
-  },
-  {
-    _id: "3",
-    title: "Caesar Salad",
-    ingredients: ["Lettuce", "Croutons", "Parmesan", "Caesar Dressing"],
-    preparationTime: 10,
-    steps: "Chop lettuce, add croutons and cheese, toss with dressing.",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpPxJ3Iuj2aTztKtlflr3e1gG-j1fP-qr2Ag&s",
-    ratings: [3, 4, 2],
-    averageRating: 3.0,
-  },
-];
-
 interface Recipe {
-  _id: string;
+  id: string;
   title: string;
   ingredients: string[];
   preparationTime: number;
@@ -61,41 +29,45 @@ const Home = () => {
   const [selectedTime, setSelectedTime] = useState<number>(0);
   const [selectedRating, setSelectedRating] = useState<number>(0);
 
-  useEffect(() => {
+
+  const fetchRecipes = async (ingredient = "", time = 0, rating = 0) => {
     setLoading(true);
+    setError(null);
     try {
-      // Set the dummy data as recipes
-      setRecipes(dummyRecipes);
+      const data = await getAllRecipes(ingredient, time, rating);
+      setRecipes(data);
+      console.log('data :- ' , data);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setError(`Failed to load recipes ${error}`);
+      setError("Failed to fetch recipes: " + error.message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
+  
+  useEffect(() => {
+    fetchRecipes();
+  }, [selectedRating, selectedTime]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchIngredient(e.target.value);
   };
 
   const handleSearchClick = () => {
-    const filteredRecipes = dummyRecipes.filter((recipe) =>
-      recipe.ingredients.some((ingredient) =>
-        ingredient.toLowerCase().includes(searchIngredient.toLowerCase())
-      )
-    );
-    setRecipes(filteredRecipes);
+    fetchRecipes(searchIngredient, selectedTime, selectedRating);
   };
 
+  // Handler for Enter key press
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleSearchClick();
+    if (e.key === "Enter") {
+      handleSearchClick();
+    }
   };
 
   const clearFilters = () => {
     setSearchIngredient("");
     setSelectedTime(0);
     setSelectedRating(0);
-    setRecipes(dummyRecipes); // Reset to original data
   };
 
   if (loading) return <Loader />;
@@ -139,7 +111,7 @@ const Home = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
-          <RecipeCard key={recipe?._id} recipe={recipe} />
+          <RecipeCard key={recipe?.id} recipe={recipe} />
         ))}
         {recipes.length === 0 && <Empty />}
       </div>

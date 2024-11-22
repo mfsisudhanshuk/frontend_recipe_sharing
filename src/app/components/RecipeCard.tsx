@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./common/Button";
 interface Recipe {
-  _id: string;
+  id: string;
   title: string;
   ingredients: string[];
   preparationTime: number;
@@ -63,7 +63,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
         />
       )}
       <div className="border rounded-lg p-4 shadow-md bg-white">
-        <Link href={`/recipe/${recipe._id}`} className="block mb-4">
+        <Link href={`/recipe/${recipe.id}`} className="block mb-4">
           <Image
             src={recipe?.image || "/placeholder.jpg"}
             alt={recipe?.title}
