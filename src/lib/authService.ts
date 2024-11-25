@@ -9,7 +9,6 @@ import {
 } from "firebase/firestore";
 import { db } from "./fireStoreConfig";
 
-
 import * as Yup from "yup";
 import { comparePassword, hashPassword } from "@/app/utils/password";
 
@@ -28,7 +27,7 @@ const validateUserInput = async (userData: unknown) => {
   try {
     await userSchema.validate(userData);
     return { isValid: true };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { isValid: false, message: error.message };
   }
@@ -62,7 +61,6 @@ export const registerUser = async (userData: {
 
     // Generate a salt and hash the password
     const hashedPassword = await hashPassword(password);
-
 
     await setDoc(userDocRef, {
       id: userDocRef.id,
@@ -98,9 +96,10 @@ export const loginUser = async (userData: {
     }
 
     // Extract the user data
-    let user: {id:string, name?: string, email?: string, password?: string}= {
-      id: "",
-    };
+    let user: { id: string; name?: string; email?: string; password?: string } =
+      {
+        id: "",
+      };
     querySnapshot.forEach((doc) => {
       user = { id: doc.id, ...doc.data() };
     });
@@ -110,10 +109,8 @@ export const loginUser = async (userData: {
       return { error: "User not found." };
     }
 
-    console.log('user.password ', user.password);
-    // Decrypt the stored password using the user's email as the key
-       // Verify the provided password against the stored hash
-       const isPasswordValid = await comparePassword(password, user.password!);
+    // Verify the provided password against the stored hash
+    const isPasswordValid = await comparePassword(password, user.password!);
 
        if (!isPasswordValid) {
          return { error: "Invalid password." };

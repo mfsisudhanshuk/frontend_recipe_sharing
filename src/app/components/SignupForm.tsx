@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
   email: Yup.string().matches(
     /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     REGISTER_VALIDATION_ERRORS.EMAIL_INVALID
-  ),
+  ).required(REGISTER_VALIDATION_ERRORS.EMAIL_REQUIRED),
   password: Yup.string()
     .min(8, REGISTER_VALIDATION_ERRORS.PASSWORD_MIN_LENGTH)
     .required(REGISTER_VALIDATION_ERRORS.PASSWORD_REQUIRED),
@@ -42,8 +42,7 @@ const handleSubmit = async (values: any) => {
     setError(null);
 
     try {
-      const { confirmPassword, ...userData } = values;
-      console.log('confirmPassword ',confirmPassword)
+      const { ...userData } = values;
       const response = await registerUser(userData);
 
       console.log('response ', response);
