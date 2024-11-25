@@ -8,9 +8,9 @@ import {
   getDoc,
   doc,
   updateDoc,
-//   Timestamp,
-//   arrayUnion,
-//   arrayRemove,
+  //   Timestamp,
+  //   arrayUnion,
+  //   arrayRemove,
 } from "firebase/firestore";
 // import cloudinary from "../lib/cloudinary.config";
 
@@ -21,7 +21,7 @@ export const getAllRecipes = async (
   ingredient?: string,
   time?: number,
   rating?: number
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any[]> => {
   try {
     const recipesCollection = collection(db, "recipes");
@@ -30,7 +30,10 @@ export const getAllRecipes = async (
 
     // Filter by ingredient
     if (ingredient) {
-      recipesQuery = query(recipesCollection, where("ingredients", "array-contains", ingredient));
+      recipesQuery = query(
+        recipesCollection,
+        where("ingredients", "array-contains", ingredient)
+      );
     }
 
     const snapshot = await getDocs(recipesQuery);
@@ -41,10 +44,11 @@ export const getAllRecipes = async (
     return recipes.filter((recipe: any) => {
       let matches = true;
       if (time && time > 0) matches = matches && recipe.preparationTime <= time;
-      if (rating && rating > 0) matches = matches && recipe.averageRating >= rating;
+      if (rating && rating > 0)
+        matches = matches && recipe.averageRating >= rating;
       return matches;
     });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Error fetching recipes: " + error.message);
   }
@@ -55,13 +59,17 @@ export const getAllRecipes = async (
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createRecipe = async (recipeData: any): Promise<any> => {
-    console.log('recipe data ', recipeData);
+  console.log("recipe data ", recipeData);
   try {
     const recipesCollection = collection(db, "recipes");
-    const newRecipe = { ...recipeData, createdAt: new Date().toISOString(), ratings: [] };
+    const newRecipe = {
+      ...recipeData,
+      createdAt: new Date().toISOString(),
+      ratings: [],
+    };
     const docRef = await addDoc(recipesCollection, newRecipe);
     return { id: docRef.id, ...newRecipe };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Error creating recipe: " + error.message);
   }
@@ -80,10 +88,10 @@ export const getSingleRecipe = async (id: string): Promise<any> => {
       throw new Error("Recipe not found");
     }
 
-    console.log('recipe by id ', snapshot);
+    console.log("recipe by id ", snapshot);
 
     return { id: snapshot.id, ...snapshot.data() };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Error fetching recipe: " + error.message);
   }
@@ -93,7 +101,12 @@ export const getSingleRecipe = async (id: string): Promise<any> => {
  * Rate a recipe or update the user's existing rating in Firestore.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const rateRecipe = async (recipeId: string, userId: string, userRating: number): Promise<any> => {
+export const rateRecipe = async (
+  recipeId: string,
+  userId: string,
+  userRating: number
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<any> => {
   if (userRating < 1 || userRating > 5) {
     throw new Error("Rating must be between 1 and 5");
   }
@@ -111,7 +124,10 @@ export const rateRecipe = async (recipeId: string, userId: string, userRating: n
 
     // Check if the user has already rated
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const existingRating = existingRatings.find((rating: any) => rating.userId === userId);
+    const existingRating = existingRatings.find(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (rating: any) => rating.userId === userId
+    );
 
     if (existingRating) {
       // Update the existing rating
@@ -124,14 +140,18 @@ export const rateRecipe = async (recipeId: string, userId: string, userRating: n
     // Calculate average rating
     const totalRatings = existingRatings.length;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const sumOfRatings = existingRatings.reduce((sum: number, { rating }: any) => sum + rating, 0);
+    const sumOfRatings = existingRatings.reduce(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (sum: number, { rating }: any) => sum + rating,
+      0
+    );
     const averageRating = parseFloat((sumOfRatings / totalRatings).toFixed(2));
 
     // Update Firestore
     await updateDoc(docRef, { ratings: existingRatings, averageRating });
 
     return { recipeId, averageRating, totalRatings, ratings: existingRatings };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Error updating rating: " + error.message);
   }
@@ -141,17 +161,11 @@ export const rateRecipe = async (recipeId: string, userId: string, userRating: n
  * Upload recipe image to Cloudinary and return the URL.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// export const uploadRecipeImage = async (file: any): Promise<string> => {
-//   try {
-//     const uploadResult = await cloudinary.uploader.upload(file.path, {
-//       folder: "recipes",
-//       public_id: `Image_${Timestamp.now()}`,
-//       transformation: { fetch_format: "auto", quality: "auto" },
-//     });
-
-//     return uploadResult.secure_url;
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   } catch (error: any) {
-//     throw new Error(`Image upload failed: ${error.message}`);
-//   }
-// };
+export const uploadRecipeImage = async (file: any): Promise<string> => {
+  const response = await fetch("/api/upload", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ file }),
+  });
+  return response.json();
+};

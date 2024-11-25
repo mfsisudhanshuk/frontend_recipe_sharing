@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'next/navigation'
 import { Toast } from "../../components/common/Toast";
 import { Loader } from "../../components/common/Loader";
-import { createRecipe } from "@/lib/recipeService";
+import { createRecipe, uploadRecipeImage } from "@/lib/recipeService";
 
 interface recipeData {
   title: string;
@@ -65,15 +65,15 @@ export default function AddRecipe () {
     try {
 
       // 1. Upload image to Cloudinary
-    //   let imageUrl = {
-    //     data: IMAGE_PLACEHOLDER,
-    //   };
+      let imageUrl = IMAGE_PLACEHOLDER;
+
       if (values.image) {
         setImageLoading(true); 
-        //imageUrl = await uploadRecipeImage(values.image);
-        // if(imageUrl?.data){
-        //   setImageLoading(false);
-        // }
+        imageUrl = await uploadRecipeImage(values.image);
+        console.log('imageUrl ,', imageUrl)
+        if(imageUrl){
+          setImageLoading(false);
+        }
       }
       
       // Prepare FormData for file upload
@@ -86,9 +86,9 @@ export default function AddRecipe () {
         formData.append(`ingredients[${index}]`, ingredient);
       });
 
-      if (values.image) {
-        formData.append("image",IMAGE_PLACEHOLDER) ;
-      }
+      // if (values.image) {
+      //   formData.append("image",IMAGE_PLACEHOLDER) ;
+      // }
 
       console.log('formdata ', formData);
       // Call createRecipe service
