@@ -80,6 +80,8 @@ export const getSingleRecipe = async (id: string): Promise<any> => {
       throw new Error("Recipe not found");
     }
 
+    console.log('recipe by id ', snapshot);
+
     return { id: snapshot.id, ...snapshot.data() };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

@@ -6,12 +6,15 @@ import { Comment } from "./Comment";
 import { Loader } from "./common/Loader";
 import ErrorMessage from "./common/ErrorMessage";
 import Image from "next/image";
+import { usePathname } from 'next/navigation';
+import { getSingleRecipe } from "../../lib/recipeService";
 
 interface User {
   email: string;
   name: string;
   _id: string;
 }
+
 interface CommentType {
   user: User;
   comment: string;
@@ -29,19 +32,59 @@ interface Recipe {
 }
 
 export const RecipeDetail = () => {
-  // Mocked `id` to simulate route parameter
-  const id = "dummy-recipe-id";
-  
+  const pathname = usePathname();
+
+  // Extract the recipe ID from the URL
+  const recipeId = pathname?.split('/').pop();
+
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [comments, setComments] = useState<CommentType[]>([]);
 
+  useEffect(() => {
+    if (!recipeId) {
+      setError("Recipe ID not found in the URL.");
+      setLoading(false);
+      return;
+    }
+
+    const fetchRecipeDetails = async () => {
+      try {
+        setLoading(true);
+        const fetchedRecipe = await getSingleRecipe(recipeId); // Fetch from Firestore
+        setRecipe(fetchedRecipe);
+
+        // Example comments (replace with actual API call if needed)
+        const dummyComments: CommentType[] = [
+          {
+            user: { email: "user1@example.com", name: "User 1", _id: "1" },
+            comment: "This is a dummy comment.",
+            createdAt: new Date().toISOString(),
+          },
+          {
+            user: { email: "user2@example.com", name: "User 2", _id: "2" },
+            comment: "Another dummy comment.",
+            createdAt: new Date().toISOString(),
+          },
+        ];
+        setComments(dummyComments);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        setError(err.message || "Failed to fetch recipe details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipeDetails();
+  }, [recipeId]);
+
   const addComment = async (userId: string, commentText: string) => {
-    if (!id) return;
+    if (!recipeId) return;
+
     try {
       setLoading(true);
-      // Simulate adding a comment
       const newComment: CommentType = {
         user: {
           email: "dummyuser@example.com",
@@ -59,47 +102,6 @@ export const RecipeDetail = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchRecipeDetails = async () => {
-      try {
-        // Simulate fetching recipe details
-        const dummyRecipe: Recipe = {
-          id: "dummy-recipe-id",
-          title: "Dummy Recipe",
-          preparationTime: "30",
-          ingredients: ["Ingredient 1", "Ingredient 2", "Ingredient 3"],
-          steps: "1. Do this.\n2. Do that.\n3. Enjoy your recipe.",
-          rating: "42",
-          image: "https://via.placeholder.com/600x400?text=Dummy+Recipe",
-        };
-
-        // Simulate fetching comments
-        const dummyComments: CommentType[] = [
-          {
-            user: { email: "user1@example.com", name: "User 1", _id: "1" },
-            comment: "This is a dummy comment.",
-            createdAt: new Date().toISOString(),
-          },
-          {
-            user: { email: "user2@example.com", name: "User 2", _id: "2" },
-            comment: "Another dummy comment.",
-            createdAt: new Date().toISOString(),
-          },
-        ];
-
-        setRecipe(dummyRecipe);
-        setComments(dummyComments);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err) {
-        setError("Failed to fetch recipe details or comments.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecipeDetails();
-  }, [id]);
 
   if (loading) return <Loader />;
   if (error) return <ErrorMessage message={error} />;
@@ -162,17 +164,17 @@ export const RecipeDetail = () => {
           <h2 className="text-2xl font-semibold mb-4">Comments</h2>
 
           {/* Comment Form */}
-          <CommentForm onAddComment={addComment} id={id!} />
+          <CommentForm onAddComment={addComment} id={recipeId!} />
 
           {/* List of Comments */}
           <div>
             {comments.length > 0 ? (
-              comments?.map((comment, index) => (
+              comments.map((comment, index) => (
                 <Comment
                   key={index}
-                  name={comment?.user?.name || "NO NAME"}
-                  commentText={comment?.comment}
-                  timestamp={comment?.createdAt}
+                  name={comment.user.name || "NO NAME"}
+                  commentText={comment.comment}
+                  timestamp={comment.createdAt}
                 />
               ))
             ) : (
