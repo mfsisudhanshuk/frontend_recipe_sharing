@@ -59,54 +59,32 @@ export default function AddRecipe () {
   const router = useRouter();
 
   const handleSubmit = async (values: recipeData) => {
-
-    console.log('values ', values);
     setLoading(true);
     try {
-
-      // 1. Upload image to Cloudinary
       let imageUrl = IMAGE_PLACEHOLDER;
 
       if (values.image) {
-        setImageLoading(true); 
+        setImageLoading(true);
         imageUrl = await uploadRecipeImage(values.image);
-        console.log('imageUrl ,', imageUrl)
-        if(imageUrl){
-          setImageLoading(false);
-        }
+        setImageLoading(false);
       }
-      
-      // Prepare FormData for file upload
-      const formData = new FormData();
-      formData.append("title", values.title);
-      formData.append("steps", values.steps);
-      formData.append("preparationTime", values.preparationTime.toString());
-      formData.append("rating", values.rating.toString());
-      values.ingredients.forEach((ingredient, index) => {
-        formData.append(`ingredients[${index}]`, ingredient);
-      });
 
-      // if (values.image) {
-      //   formData.append("image",IMAGE_PLACEHOLDER) ;
-      // }
+      const recipeData = {
+        ...values,
+        image: imageUrl || IMAGE_PLACEHOLDER,
+      };
 
-      console.log('formdata ', formData);
-      // Call createRecipe service
-     const result = await createRecipe(values);
- 
-     setSuccessMessage(result?.message);
+      const result = await createRecipe(recipeData);
+      setSuccessMessage(result?.message);
       router.push("/");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log('error ',error)
-      setError( error?.response?.statusText || 'Something went wrong, Please try again !')
-    }
-    finally{
+      console.log('error ', error);
+      setError(error?.message || 'Something went wrong, Please try again!');
+    } finally {
       setLoading(false);
-      setImageLoading(false);
     }
   };
-
 
   if (loading && !imageLoading ) return <Loader />;
   

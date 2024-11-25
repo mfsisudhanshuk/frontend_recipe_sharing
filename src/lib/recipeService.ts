@@ -161,11 +161,17 @@ export const rateRecipe = async (
  * Upload recipe image to Cloudinary and return the URL.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const uploadRecipeImage = async (file: any): Promise<string> => {
+export const uploadRecipeImage = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('image', file);
   const response = await fetch("/api/upload", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ file }),
+    body: formData
   });
-  return response.json();
+  if (!response.ok) {
+    throw new Error('Failed to upload image');
+  }
+
+  const data = await response.json();
+  return data.url;
 };

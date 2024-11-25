@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
+import { NextRequest, NextResponse } from 'next/server';
 
 console.log('cloudinary secret ', process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET)
 
@@ -9,23 +10,41 @@ cloudinary.config({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function POST(req: any)  {
-    console.log('mage url called S')
+export async function POST(req: NextRequest) {
   if (req.method !== 'POST') {
-    return Response.json({ error: 'Method not allowed' });
+    return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
   }
 
   try {
-    const file = req.body.file;
-    const result = await cloudinary.uploader.upload(file, {
-      folder: "uploads",
+    const formData = await req.formData();
+    const file = formData.get('image') as File;
+
+    if (!file) {
+      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
+    }
+
+    const fileBuffer = await file.arrayBuffer();
+
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        { folder: "uploads" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      ).end(Buffer.from(fileBuffer));
     });
 
-    console.log('resoult ', result);
-    return Response.json({ success: true, data: result });
+    console.log('result ', result);
+
+    if (typeof result === 'object' && 'secure_url' in result!) {
+      return NextResponse.json({ url: result.secure_url });
+    } else {
+      throw new Error('Invalid response from Cloudinary');
+    }
   } catch (error) {
     console.error('Upload Error:', error);
-    return Response.json({ error: 'Failed to upload image' });
+    return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
   }
 }
 
