@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { rateRecipe } from "../../services/recipeService";
 import { Button } from "../../components/common/Button";
 import { Toast } from "../../components/common/Toast";
+import { capitalizeFirstLetter } from "../../utils/constants";
 
 interface Recipe {
   _id: string;
@@ -67,11 +68,11 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
             alt={recipe?.title}
             className="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h2 className="text-lg font-semibold mb-2">{recipe.title}</h2>
+          <h2 className="text-lg font-semibold mb-2 truncate" title={recipe?.title}>{capitalizeFirstLetter(recipe?.title)}</h2>
           <p className="text-sm text-gray-500">
             Preparation Time: {recipe.preparationTime} mins
           </p>
-          <p className="text-sm mt-2 truncate">
+          <p className="text-sm mt-2 truncate" title={recipe.ingredients.join(", ")}>
             Ingredients: {recipe.ingredients.join(", ")}
           </p>
         </Link>

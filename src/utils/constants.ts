@@ -147,6 +147,20 @@ export const RATING_FILTER_OPTIONS = [
   { value: 5, label: "5 Stars" },
 ];
 
+/**
+ * Capitalizes the first letter of a given string.
+ * If the input is not a string or is empty, it returns the original value.
+ * 
+ * @param text - The string to capitalize
+ * @returns The string with the first letter capitalized
+ */
+export function capitalizeFirstLetter(text: string): string {
+  if (typeof text !== "string" || text.length === 0) {
+    return text;
+  }
+  return text[0].toUpperCase() + text.slice(1);
+}
+
 
 export const EMAIL_REGED = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
