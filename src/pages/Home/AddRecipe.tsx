@@ -21,7 +21,7 @@ interface recipeData {
   steps: string;
   rating: number;
   image: File | null;
-};
+}
 
 // Validation Schema
 const validationSchema = Yup.object({
@@ -59,19 +59,18 @@ export const AddRecipe = () => {
   const handleSubmit = async (values: recipeData) => {
     setLoading(true);
     try {
-
       // 1. Upload image to Cloudinary
       let imageUrl = {
         data: IMAGE_PLACEHOLDER,
       };
       if (values.image) {
-        setImageLoading(true); 
+        setImageLoading(true);
         imageUrl = await uploadRecipeImage(values.image);
-        if(imageUrl?.data){
+        if (imageUrl?.data) {
           setImageLoading(false);
         }
       }
-      
+
       // Prepare FormData for file upload
       const formData = new FormData();
       formData.append("title", values.title);
@@ -83,30 +82,35 @@ export const AddRecipe = () => {
       });
 
       if (values.image) {
-        formData.append("image", imageUrl?.data || IMAGE_PLACEHOLDER) ;
+        formData.append("image", imageUrl?.data || IMAGE_PLACEHOLDER);
       }
 
       // Call createRecipe service
       const result = await createRecipe(formData);
- 
+
       setSuccessMessage(result?.message);
       navigate("/");
     } catch (error: any) {
-      setError( error?.response?.statusText || 'Something went wrong, Please try again !')
-    }
-    finally{
+      setError(
+        error?.response?.statusText ||
+          "Something went wrong, Please try again !"
+      );
+    } finally {
       setLoading(false);
       setImageLoading(false);
     }
   };
 
+  if (loading && !imageLoading) return <Loader />;
 
-  if (loading && !imageLoading ) return <Loader />;
-  
   return (
     <>
       {successMessage && (
-        <Toast message={successMessage} type="success" onClose={() => setSuccessMessage(null)} />
+        <Toast
+          message={successMessage}
+          type="success"
+          onClose={() => setSuccessMessage(null)}
+        />
       )}
 
       {error && (
@@ -135,11 +139,14 @@ export const AddRecipe = () => {
                   name="title"
                   placeholder={RECIPE_PLACEHOLDER.TITLE}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  aria-required="true"
+                  aria-describedby="title-error"
                 />
                 <ErrorMessage
                   name="title"
                   component="div"
                   className="text-red-500 text-sm mt-1"
+                  aria-live="polite"
                 />
               </div>
 
@@ -157,6 +164,8 @@ export const AddRecipe = () => {
                             name={`ingredients[${index}]`}
                             placeholder={`Ingredient ${index + 1}`}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 mr-2"
+                            aria-required="true"
+                            aria-describedby={`ingredients-error-${index}`}
                           />
                           <Button
                             type="button"
@@ -181,6 +190,7 @@ export const AddRecipe = () => {
                   name="ingredients"
                   component="div"
                   className="text-red-500 text-sm mt-1"
+                  aria-live="polite"
                 />
               </div>
 
@@ -197,11 +207,14 @@ export const AddRecipe = () => {
                   name="preparationTime"
                   placeholder={RECIPE_PLACEHOLDER.PREPARATION_TIME}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  aria-required="true"
+                  aria-describedby="preparationTime-error"
                 />
                 <ErrorMessage
                   name="preparationTime"
                   component="div"
                   className="text-red-500 text-sm mt-1"
+                  aria-live="polite"
                 />
               </div>
 
@@ -219,11 +232,14 @@ export const AddRecipe = () => {
                   placeholder={RECIPE_PLACEHOLDER.STEPS}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                   rows={4}
+                  aria-required="true"
+                  aria-describedby="recipe-steps-error"
                 />
                 <ErrorMessage
                   name="steps"
                   component="div"
                   className="text-red-500 text-sm mt-1"
+                  aria-live="polite"
                 />
               </div>
 
@@ -240,11 +256,14 @@ export const AddRecipe = () => {
                   name="rating"
                   placeholder={RECIPE_PLACEHOLDER.RATING}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  aria-required="true"
+                  aria-describedby="recipe-rating-error"
                 />
                 <ErrorMessage
                   name="rating"
                   component="div"
                   className="text-red-500 text-sm mt-1"
+                  aria-live="polite"
                 />
               </div>
 
@@ -265,8 +284,9 @@ export const AddRecipe = () => {
                     }
                   }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  aria-describedby="image-error"
                 />
-                 {imageLoading && (
+                {imageLoading && (
                   <div className="flex items-center mt-2">
                     <span>Uploading Image...</span>
                   </div>
@@ -275,6 +295,7 @@ export const AddRecipe = () => {
                   name="image"
                   component="div"
                   className="text-red-500 text-sm mt-1"
+                  aria-live="polite"
                 />
               </div>
 
