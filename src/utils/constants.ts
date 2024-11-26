@@ -161,6 +161,15 @@ export function capitalizeFirstLetter(text: string): string {
   return text[0].toUpperCase() + text.slice(1);
 }
 
+/**
+ * Check for token in local storage.
+ * 
+ * @returns Returns true if token exists, false otherwise
+ */
+export const checkToken = (): boolean => {
+  const token = localStorage.getItem("token");
+  return !!token;
+};
 
 export const EMAIL_REGED = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 

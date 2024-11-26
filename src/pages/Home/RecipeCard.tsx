@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { rateRecipe } from "../../services/recipeService";
 import { Button } from "../../components/common/Button";
 import { Toast } from "../../components/common/Toast";
-import { capitalizeFirstLetter } from "../../utils/constants";
+import { capitalizeFirstLetter, checkToken } from "../../utils/constants";
 
 interface Recipe {
   _id: string;
@@ -33,7 +33,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
   // Handle rating submission
   const handleRatingSubmit = async () => {
     if (userRating < 1 || userRating > 5) {
-      alert("Please select a rating between 1 and 5");
+      setError("Please select a rating between 1 and 5");
       return;
     }
 
@@ -50,7 +50,6 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
 
   return (
     <>
-      {" "}
       {error && (
         <Toast message={error} type="error" onClose={() => setError(null)} />
       )}
@@ -68,42 +67,52 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
             alt={recipe?.title}
             className="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h2 className="text-lg font-semibold mb-2 truncate" title={recipe?.title}>{capitalizeFirstLetter(recipe?.title)}</h2>
+          <h2
+            className="text-lg font-semibold mb-2 truncate"
+            title={recipe?.title}
+          >
+            {capitalizeFirstLetter(recipe?.title)}
+          </h2>
           <p className="text-sm text-gray-500">
             Preparation Time: {recipe.preparationTime} mins
           </p>
-          <p className="text-sm mt-2 truncate" title={recipe.ingredients.join(", ")}>
+          <p
+            className="text-sm mt-2 truncate"
+            title={recipe.ingredients.join(", ")}
+          >
             Ingredients: {recipe.ingredients.join(", ")}
           </p>
         </Link>
 
         {/* Rating UI */}
-        <div className="flex items-center gap-2 mt-4">
-          <p className="text-sm">Rate this recipe:</p>
-          <select
-            value={userRating}
-            onChange={(e) => handleRatingChange(Number(e.target.value))}
-            className="px-2 py-1 border rounded"
-          >
-            <option value={0}>Select</option>
-            {[1, 2, 3, 4, 5].map((rate) => (
-              <option key={rate} value={rate}>
-                {rate}
-              </option>
-            ))}
-          </select>
-          <Button
-            onClick={handleRatingSubmit}
-            disabled={loading}
-            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            {loading ? "Submitting..." : "Submit"}
-          </Button>
-        </div>
+        {checkToken() && (
+          <div className="flex items-center gap-2 mt-4">
+            <p className="text-sm">Rate this recipe:</p>
+            <select
+              value={userRating}
+              onChange={(e) => handleRatingChange(Number(e.target.value))}
+              className="px-2 py-1 border rounded"
+            >
+              <option value={0}>Select</option>
+              {[1, 2, 3, 4, 5].map((rate) => (
+                <option key={rate} value={rate}>
+                  {rate}
+                </option>
+              ))}
+            </select>
+            <Button
+              onClick={handleRatingSubmit}
+              disabled={loading}
+              className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              {loading ? "Submitting..." : "Submit"}
+            </Button>
+          </div>
+        )}
 
         {/* Display Average Rating */}
         <div className="mt-2 text-sm">
-          <p>
+          <p title={checkToken() ? "" : "Login to rate recipe"}>
             Average Rating: {recipe?.averageRating} ({recipe?.ratings?.length}{" "}
             ratings)
           </p>
