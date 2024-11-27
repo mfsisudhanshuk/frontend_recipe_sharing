@@ -16,41 +16,56 @@ import {
 
 /**
  * Fetch all recipes from Firestore with optional filters.
+ * @param ingredient - Filter by a specific ingredient.
+ * @param time - Filter recipes with preparation time less than or equal to the provided value.
+ * @param rating - Filter recipes with average rating greater than or equal to the provided value.
+ * @returns Array of filtered recipes.
  */
 export const getAllRecipes = async (
   ingredient?: string,
   time?: number,
-  rating?: number
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //rating?: number
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any[]> => {
   try {
     const recipesCollection = collection(db, "recipes");
 
+    // Firestore query builder
     let recipesQuery = query(recipesCollection);
 
     // Filter by ingredient
     if (ingredient) {
       recipesQuery = query(
-        recipesCollection,
+        recipesQuery,
         where("ingredients", "array-contains", ingredient)
       );
     }
 
+    // Fetch recipes
     const snapshot = await getDocs(recipesQuery);
-    const recipes = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const recipes = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-    console.log('recipes ', recipes);
-
-    // Apply additional filters locally
+    // Apply additional filters locally for unsupported Firestore operations
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return recipes.filter((recipe: any) => {
       let matches = true;
-      if (time && time > 0) matches = matches && recipe.preparationTime <= time;
-      if (rating && rating > 0)
-        matches = matches && recipe.averageRating >= rating;
+
+      // Filter by preparation time (less than or equal to)
+      if (time && time > 0) {
+        matches = matches && recipe.preparationTime <= time;
+      }
+
+      // Filter by rating (greater than or equal to)
+      // if (rating && rating > 0) {
+      //   matches = matches && recipe.averageRating >= rating;
+      // }
+
       return matches;
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Error fetching recipes: " + error.message);
   }

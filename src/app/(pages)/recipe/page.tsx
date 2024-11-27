@@ -30,11 +30,11 @@ const Home = () => {
   const [selectedRating, setSelectedRating] = useState<number>(0);
 
 
-  const fetchRecipes = async (ingredient = "", time = 0, rating = 0) => {
+  const fetchRecipes = async (ingredient = "", time = 0) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getAllRecipes(ingredient, time, rating);
+      const data = await getAllRecipes(ingredient, time);
       setRecipes(data);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -53,7 +53,7 @@ const Home = () => {
   };
 
   const handleSearchClick = () => {
-    fetchRecipes(searchIngredient, selectedTime, selectedRating);
+    fetchRecipes(searchIngredient, selectedTime);
   };
 
   // Handler for Enter key press
