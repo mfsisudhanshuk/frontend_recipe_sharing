@@ -1,16 +1,9 @@
-import {
-  collection,
-  doc,
-  setDoc,
-  Timestamp,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "./fireStoreConfig";
+import { collection, doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "./fireStoreConfig";
-
 import * as Yup from "yup";
-import { comparePassword, hashPassword } from "@/app/utils/password";
+import { hashPassword } from "@/app/utils/password";
 
 // Validation Schema
 const userSchema = Yup.object().shape({
@@ -47,33 +40,29 @@ export const registerUser = async (userData: {
   }
 
   try {
-    // Check if email already exists
-    const usersCollectionRef = collection(db, "users");
-    const emailQuery = query(usersCollectionRef, where("email", "==", email));
-    const querySnapshot = await getDocs(emailQuery);
+    // Create user with Firebase Authentication
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-    if (!querySnapshot.empty) {
-      return { error: "Email already exists. Please use a different email." };
-    }
+    // Update user profile with name
+    await updateProfile(user, { displayName: name });
 
-    // Create a new user document with a generated ID
-    const userDocRef = doc(usersCollectionRef);
-
-    // Generate a salt and hash the password
+    // Create a new user document in Firestore
+    const userDocRef = doc(collection(db, "users"), user.uid);
     const hashedPassword = await hashPassword(password);
 
     await setDoc(userDocRef, {
-      id: userDocRef.id,
+      id: user.uid,
       name,
       email,
       password: hashedPassword,
       createdAt: Timestamp.now(),
     });
 
-    return { message: "User registered successfully", id: userDocRef.id };
-
+    return { message: "User registered successfully", id: user.uid };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    console.log('error ', error);
     return { error: error.message };
   }
 };
@@ -83,45 +72,22 @@ export const loginUser = async (userData: {
   password: string;
 }) => {
   const { email, password } = userData;
-  console.log("password ", password);
 
   try {
-    // Query Firestore for the user with the given email
-    const usersCollectionRef = collection(db, "users");
-    const emailQuery = query(usersCollectionRef, where("email", "==", email));
-    const querySnapshot = await getDocs(emailQuery);
+    // Sign in user with Firebase Authentication
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    const token = await user.getIdToken();
+    document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict; Secure`; // 1 week expiry
 
-    if (querySnapshot.empty) {
-      return { error: "User with this email does not exist." };
-    }
-
-    // Extract the user data
-    let user: { id: string; name?: string; email?: string; password?: string } =
-      {
-        id: "",
-      };
-    querySnapshot.forEach((doc) => {
-      user = { id: doc.id, ...doc.data() };
-    });
-
-    console.log("user ", user);
-    if (!user) {
-      return { error: "User not found." };
-    }
-
-    // Verify the provided password against the stored hash
-    const isPasswordValid = await comparePassword(password, user.password!);
-
-       if (!isPasswordValid) {
-         return { error: "Invalid password." };
-       }
-   
-
-    // Successful login
     return {
       message: "Login successful",
+      user: {
+        id: user.uid,
+        email: user.email,
+        name: user.displayName,
+      },
     };
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { error: error.message };

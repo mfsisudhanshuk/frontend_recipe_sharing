@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { MENU_ITEMS } from "../utils/constants";
 import Link from "next/link";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import { useAuth } from "../context/authContext";
 
 const NavMenu = ({
   isOpen,
@@ -51,12 +52,15 @@ export const Header = () => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const isLogin = false;
+  const { user, loading, signOut } = useAuth();
 
-  const handleLogout = () => {
-    console.log("handle logout ");
+  console.log("user ", user);
+
+  const handleLogout = async () => {
+    await signOut();
+    router.push("/");
   };
 
   return (
@@ -72,10 +76,12 @@ export const Header = () => {
       {/* Action Buttons on the right - Updated for mobile visibility */}
       <div className="flex items-center space-x-4 lg:hidden">
         {/* Updated to always show buttons */}
-        {isLogin ? (
+        {loading ? (
+          <span>Loading...</span>
+        ) : user ? (
           <button
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-            onClick={() => router.push('/logout')}
+            onClick={handleLogout}
           >
             Logout
           </button>
@@ -121,7 +127,9 @@ export const Header = () => {
 
       {/* Action Buttons on the right */}
       <div className="hidden lg:flex items-center space-x-4">
-        {isLogin ? (
+        {loading ? (
+          <span>Loading...</span>
+        ) : user ? (
           <button
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
             onClick={handleLogout}
