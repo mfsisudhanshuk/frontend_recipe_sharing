@@ -42,7 +42,7 @@ export default function LoginForm() {
           {message.text}
         </div>
       )}
-      <h2 className="text-xl mb-4">Login</h2>
+      <h2 className="text-xl mb-4 text-center">Login</h2>
       <input
         type="email"
         placeholder="Email"

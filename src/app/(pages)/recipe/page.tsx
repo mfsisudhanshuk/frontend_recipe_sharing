@@ -73,7 +73,7 @@ const Home = () => {
   if (error) return <ErrorMessage message={error} />;
 
   return (
-    <div className="container mx-auto px-4 mt-10">
+    <div className="container mx-auto px-4 mt-10 min-h-screen">
       <h1 className="text-2xl font-semibold mb-4">Recipes List</h1>
       <div className="mb-6 flex flex-col md:flex-row md:items-center gap-4">
         {/* Search box */}

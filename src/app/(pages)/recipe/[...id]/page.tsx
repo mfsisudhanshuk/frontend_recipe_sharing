@@ -1,12 +1,12 @@
-import RecipeDetail from '@/app/components/RecipeDetail'
-import React from 'react'
+import RecipeDetail from "@/app/components/RecipeDetail";
+import React from "react";
 
 const RecipeDetailPage = () => {
   return (
     <>
-    <RecipeDetail />
+      <RecipeDetail />
     </>
-  )
-}
+  );
+};
 
-export default RecipeDetailPage
+export default RecipeDetailPage;
