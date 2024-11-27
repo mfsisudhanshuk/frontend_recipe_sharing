@@ -5,6 +5,7 @@ import { Toast } from "./common/Toast";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./common/Button";
+import { useAuth } from "../context/authContext";
 interface Recipe {
   id: string;
   title: string;
@@ -25,6 +26,9 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [userRating, setUserRating] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { user } = useAuth();
+
   // Handle rating change
   const handleRatingChange = (rating: number) => {
     setUserRating(rating);
@@ -81,28 +85,28 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
         </Link>
 
         {/* Rating UI */}
-        <div className="flex items-center gap-2 mt-4">
-          <p className="text-sm">Rate this recipe:</p>
-          <select
-            value={userRating}
-            onChange={(e) => handleRatingChange(Number(e.target.value))}
-            className="px-2 py-1 border rounded"
-          >
-            <option value={0}>Select</option>
-            {[1, 2, 3, 4, 5].map((rate) => (
-              <option key={rate} value={rate}>
-                {rate}
-              </option>
-            ))}
-          </select>
-          <Button
-            onClick={handleRatingSubmit}
-            disabled={loading}
-            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            {loading ? "Submitting..." : "Submit"}
-          </Button>
-        </div>
+      {user && <div className="flex items-center gap-2 mt-4">
+        <p className="text-sm">Rate this recipe:</p>
+        <select
+          value={userRating}
+          onChange={(e) => handleRatingChange(Number(e.target.value))}
+          className="px-2 py-1 border rounded"
+        >
+          <option value={0}>Select</option>
+          {[1, 2, 3, 4, 5].map((rate) => (
+            <option key={rate} value={rate}>
+              {rate}
+            </option>
+          ))}
+        </select>
+        <Button
+          onClick={handleRatingSubmit}
+          disabled={loading}
+          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          {loading ? "Submitting..." : "Submit"}
+        </Button>
+      </div>}
 
         {/* Display Average Rating */}
         <div className="mt-2 text-sm">

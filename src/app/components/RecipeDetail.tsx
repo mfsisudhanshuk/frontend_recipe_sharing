@@ -36,8 +36,6 @@ interface Recipe {
 export const RecipeDetail = () => {
   const pathname = usePathname();
   const { user } = useAuth();
-
-  console.log('user ', user);
  
 
   // Extract the recipe ID from the URL
@@ -166,7 +164,7 @@ export const RecipeDetail = () => {
           <h2 className="text-2xl font-semibold mb-4">Comments</h2>
 
           {/* Comment Form */}
-          <CommentForm onAddComment={addComment} recipeId={recipeId!} user={user}/>
+         {user && <CommentForm onAddComment={addComment} recipeId={recipeId!} user={user}/>}
 
           {/* List of Comments */}
           <div>
