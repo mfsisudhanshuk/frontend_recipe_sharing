@@ -66,7 +66,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
           onClose={() => setSuccessMessage(null)}
         />
       )}
-      <div className="border rounded-lg p-4 shadow-md bg-white">
+      <div className="border rounded-lg p-4 shadow-md bg-white" data-id={recipe?.id}>
         <Link href={`/recipe/${recipe.id}`} className="block mb-4">
           <Image
             src={recipe?.image || "/placeholder.jpg"}

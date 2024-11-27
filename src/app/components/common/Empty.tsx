@@ -8,14 +8,14 @@ export const Empty: React.FC = () => {
   return (
     <div
     className="w-screen flex justify-center items-center"
-    style={{ height: "80vh" }}
+    style={{ height: "100vh" }}
   >
     <Image
       src={'https://via.placeholder.com/350x150'} //TODO: Update it
       alt="No results"
       className="max-w-full max-h-full object-contain"
-      width={200}
-      height={300}
+      width={500}
+      height={500}
     />
   </div>
   
