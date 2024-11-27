@@ -39,6 +39,8 @@ export const getAllRecipes = async (
     const snapshot = await getDocs(recipesQuery);
     const recipes = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
+    console.log('recipes ', recipes);
+
     // Apply additional filters locally
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return recipes.filter((recipe: any) => {
