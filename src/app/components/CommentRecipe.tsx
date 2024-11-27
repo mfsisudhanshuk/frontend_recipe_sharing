@@ -4,11 +4,14 @@ import React, { useState } from "react";
 import { Button } from "./common/Button";
 
 interface CommentFormProps {
-  onAddComment: (userId: string, text: string) => Promise<void>;
-  id: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onAddComment: (recipeId: string, text: string, user: any) => Promise<void>;
+  recipeId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any;
 }
 
-export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment,id }) => {
+export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment,recipeId, user }) => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +20,8 @@ export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment,id }) => 
     if (!text) return;
     try {
       setLoading(true);
-      await onAddComment(id, text);
+      console.log("text .. " , text)
+      await onAddComment(recipeId, text, user);
       setText("");
     } catch (error) {
       console.error("Error submitting comment:", error);

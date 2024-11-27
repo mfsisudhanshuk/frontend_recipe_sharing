@@ -8,11 +8,13 @@ import ErrorMessage from "./common/ErrorMessage";
 import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import { getSingleRecipe } from "../../lib/recipeService";
+import { useAuth } from "../context/authContext";
+import { createComment, fetchComments } from "@/lib/commentService";
 
 interface User {
   email: string;
   name: string;
-  _id: string;
+  id: string;
 }
 
 interface CommentType {
@@ -33,6 +35,10 @@ interface Recipe {
 
 export const RecipeDetail = () => {
   const pathname = usePathname();
+  const { user } = useAuth();
+
+  console.log('user ', user);
+ 
 
   // Extract the recipe ID from the URL
   const recipeId = pathname?.split('/').pop();
@@ -52,23 +58,16 @@ export const RecipeDetail = () => {
     const fetchRecipeDetails = async () => {
       try {
         setLoading(true);
-        const fetchedRecipe = await getSingleRecipe(recipeId); // Fetch from Firestore
+
+        // Fetch recipe details
+        const fetchedRecipe = await getSingleRecipe(recipeId);
         setRecipe(fetchedRecipe);
 
-        // Example comments (replace with actual API call if needed)
-        const dummyComments: CommentType[] = [
-          {
-            user: { email: "user1@example.com", name: "User 1", _id: "1" },
-            comment: "This is a dummy comment.",
-            createdAt: new Date().toISOString(),
-          },
-          {
-            user: { email: "user2@example.com", name: "User 2", _id: "2" },
-            comment: "Another dummy comment.",
-            createdAt: new Date().toISOString(),
-          },
-        ];
-        setComments(dummyComments);
+        // Fetch comments for the recipe
+        const fetchedComments = await fetchComments(recipeId);
+        console.log('fetchedComments ', fetchedComments)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setComments(fetchedComments as any[]);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Failed to fetch recipe details.");
@@ -80,28 +79,31 @@ export const RecipeDetail = () => {
     fetchRecipeDetails();
   }, [recipeId]);
 
-  const addComment = async (userId: string, commentText: string) => {
-    if (!recipeId) return;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const addComment = async (recipeId: string, text: string, user: any) => {
+    if (!recipeId || !user) {
+      setError("Unable to add comment. User or recipe ID not found.");
+      return;
+    }
+  
     try {
       setLoading(true);
-      const newComment: CommentType = {
-        user: {
-          email: "dummyuser@example.com",
-          name: "Dummy User",
-          _id: "dummy-user-id",
-        },
-        comment: commentText,
-        createdAt: new Date().toISOString(),
-      };
+  
+      console.log('addComment ', recipeId, "commenttext " ,text, 'user ',user)
+      // Call the createComment service
+      const newComment = await createComment(recipeId, text, user);
+
+  
+      // Update comments in local state
       setComments((prevComments) => [newComment, ...prevComments]);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      setError("Failed to add comment.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message || "Failed to add comment.");
     } finally {
       setLoading(false);
     }
   };
+  
 
   if (loading) return <Loader />;
   if (error) return <ErrorMessage message={error} />;
@@ -164,7 +166,7 @@ export const RecipeDetail = () => {
           <h2 className="text-2xl font-semibold mb-4">Comments</h2>
 
           {/* Comment Form */}
-          <CommentForm onAddComment={addComment} id={recipeId!} />
+          <CommentForm onAddComment={addComment} recipeId={recipeId!} user={user}/>
 
           {/* List of Comments */}
           <div>
