@@ -58,12 +58,13 @@ export const getAllRecipes = async (
  * Create a new recipe in Firestore.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const createRecipe = async (recipeData: any): Promise<any> => {
-  console.log("recipe data ", recipeData);
+export const createRecipe = async (recipeData: any, user: any): Promise<any> => {
+
   try {
     const recipesCollection = collection(db, "recipes");
     const newRecipe = {
       ...recipeData,
+      createdBy: user?.id,
       createdAt: new Date().toISOString(),
       ratings: [],
     };
@@ -87,8 +88,6 @@ export const getSingleRecipe = async (id: string): Promise<any> => {
     if (!snapshot.exists()) {
       throw new Error("Recipe not found");
     }
-
-    console.log("recipe by id ", snapshot);
 
     return { id: snapshot.id, ...snapshot.data() };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

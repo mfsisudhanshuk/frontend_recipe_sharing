@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { Toast } from "../../components/common/Toast";
 import { Loader } from "../../components/common/Loader";
 import { createRecipe, uploadRecipeImage } from "@/lib/recipeService";
+import { useAuth } from "@/app/context/authContext";
 
 interface recipeData {
   title: string;
@@ -47,6 +48,8 @@ export default function AddRecipe () {
   const [loading, setLoading] = useState<boolean>(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
 
+  const { user } = useAuth();
+
   const initialValues: recipeData = {
     title: "",
     ingredients: [""],
@@ -74,7 +77,7 @@ export default function AddRecipe () {
         image: imageUrl || IMAGE_PLACEHOLDER,
       };
 
-      const result = await createRecipe(recipeData);
+      const result = await createRecipe(recipeData,user );
       setSuccessMessage(result?.message);
       router.push("/");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
