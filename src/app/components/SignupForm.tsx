@@ -44,8 +44,7 @@ const handleSubmit = async (values: any) => {
     try {
       const { ...userData } = values;
       const response = await registerUser(userData);
-
-      console.log('response ', response);
+      
       if (response?.error) {
         setError(response.error);
       } else {

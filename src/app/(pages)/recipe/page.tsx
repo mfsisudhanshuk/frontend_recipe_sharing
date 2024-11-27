@@ -36,7 +36,6 @@ const Home = () => {
     try {
       const data = await getAllRecipes(ingredient, time, rating);
       setRecipes(data);
-      console.log('data :- ' , data);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setError("Failed to fetch recipes: " + error.message);

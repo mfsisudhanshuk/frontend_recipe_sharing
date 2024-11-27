@@ -56,8 +56,6 @@ export const Header = () => {
 
   const { user, loading, signOut } = useAuth();
 
-  console.log("user ", user);
-
   const handleLogout = async () => {
     await signOut();
     router.push("/");

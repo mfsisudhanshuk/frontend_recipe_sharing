@@ -12,7 +12,7 @@ import {
   mockRecipes,
 } from "../utils/constants";
 interface Recipe {
-  _id: string;
+  id: string;
   title: string;
   ingredients: string[];
   preparationTime: number;
@@ -20,6 +20,7 @@ interface Recipe {
   ratings?: [];
   image?: string;
   averageRating: number;
+  createdBy:string;
 }
 
 
@@ -148,7 +149,7 @@ const getAllRecipes = async (
   
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {recipes.map((recipe) => (
-            <RecipeCard key={recipe._id} recipe={recipe} />
+            <RecipeCard key={recipe.id} recipe={recipe} />
           ))}
           {recipes.length === 0 && <Empty />}
         </div>

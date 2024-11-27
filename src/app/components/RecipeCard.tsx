@@ -71,11 +71,11 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
             width={200}
             height={300}
           />
-          <h2 className="text-lg font-semibold mb-2">{recipe.title}</h2>
+          <h2 className="text-lg font-semibold mb-2 truncate" title={recipe?.title}>{recipe.title}</h2>
           <p className="text-sm text-gray-500">
             Preparation Time: {recipe.preparationTime} mins
           </p>
-          <p className="text-sm mt-2">
+          <p className="text-sm mt-2 truncate" title={recipe.ingredients.join(", ")}>
             Ingredients: {recipe.ingredients.join(", ")}
           </p>
         </Link>

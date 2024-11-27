@@ -4,8 +4,6 @@ import type { NextRequest } from 'next/server'
 export async function middleware(request: NextRequest) {
   const session =  request.cookies.get('token')?.value
 
-  console.log('session ',session);
-  
   // Add paths that should be protected
   const protectedPaths = ['/add-recipe', '/logout']
   
