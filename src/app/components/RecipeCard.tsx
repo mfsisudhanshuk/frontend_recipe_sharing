@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./common/Button";
 import { useAuth } from "../context/authContext";
+import { rateRecipe } from "@/lib/recipeService";
 interface Recipe {
   id: string;
   title: string;
@@ -36,21 +37,30 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe }) => {
 
   // Handle rating submission
   const handleRatingSubmit = async () => {
-    if (userRating < 1 || userRating > 5) {
-      alert("Please select a rating between 1 and 5");
+    if (!user) {
+      setError("You must be logged in to rate a recipe.");
       return;
     }
 
-    console.log('rating clickec ');
+    if (userRating < 1 || userRating > 5) {
+      setError("Please select a valid rating between 1 and 5.");
+      return;
+    }
+
     setLoading(true);
-    // try {
-    //   const data = await rateRecipe(recipe._id, userRating);
-    //   setSuccessMessage(data?.message);
-    // } catch (error: any) {
-    //   setError(error.message);
-    // } finally {
-    //   setLoading(false);
-    // }
+
+    try {
+      const data = await rateRecipe(recipe.id, user.id, userRating);
+      setSuccessMessage("Rating submitted successfully!");
+      recipe.averageRating = data.averageRating;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      recipe.ratings = data.ratings.map((r: any) => r.rating);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

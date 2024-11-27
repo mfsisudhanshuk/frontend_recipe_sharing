@@ -14,6 +14,16 @@ import {
 } from "firebase/firestore";
 // import cloudinary from "../lib/cloudinary.config";
 
+interface Rating {
+  userId: string;
+  rating: number;
+}
+
+interface Recipe {
+  ratings?: Rating[];
+  averageRating: number;
+}
+
 /**
  * Fetch all recipes from Firestore with optional filters.
  * @param ingredient - Filter by a specific ingredient.
@@ -121,8 +131,12 @@ export const rateRecipe = async (
   recipeId: string,
   userId: string,
   userRating: number
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Promise<any> => {
+): Promise<{
+  recipeId: string;
+  averageRating: number;
+  totalRatings: number;
+  ratings: Rating[];
+}> => {
   if (userRating < 1 || userRating > 5) {
     throw new Error("Rating must be between 1 and 5");
   }
@@ -135,44 +149,32 @@ export const rateRecipe = async (
       throw new Error("Recipe not found");
     }
 
-    const recipe = recipeSnapshot.data();
+    const recipe = recipeSnapshot.data() as Recipe;
     const existingRatings = recipe.ratings || [];
 
-    // Check if the user has already rated
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const existingRating = existingRatings.find(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (rating: any) => rating.userId === userId
-    );
+    // Check for an existing rating
+    const existingRating = existingRatings.find((r) => r.userId === userId);
 
     if (existingRating) {
-      // Update the existing rating
       existingRating.rating = userRating;
     } else {
-      // Add new rating
       existingRatings.push({ userId, rating: userRating });
     }
 
     // Calculate average rating
     const totalRatings = existingRatings.length;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const sumOfRatings = existingRatings.reduce(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (sum: number, { rating }: any) => sum + rating,
-      0
-    );
+    const sumOfRatings = existingRatings.reduce((sum, r) => sum + r.rating, 0);
     const averageRating = parseFloat((sumOfRatings / totalRatings).toFixed(2));
 
     // Update Firestore
     await updateDoc(docRef, { ratings: existingRatings, averageRating });
 
     return { recipeId, averageRating, totalRatings, ratings: existingRatings };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    throw new Error("Error updating rating: " + error.message);
+    throw new Error(`Error updating rating: ${error.message}`);
   }
 };
-
 /**
  * Upload recipe image to Cloudinary and return the URL.
  */
