@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { CommentForm } from "./CommentRecipe";
 import { Comment } from "./Comment";
 import { Loader } from "./common/Loader";
-import ErrorMessage from "./common/ErrorMessage";
 import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import { getSingleRecipe } from "../../lib/recipeService";
 import { useAuth } from "../context/authContext";
 import { createComment, fetchComments } from "@/lib/commentService";
+import { Toast } from "./common/Toast";
 
 interface User {
   email: string;
@@ -40,7 +40,7 @@ export const RecipeDetail = () => {
 
   // Extract the recipe ID from the URL
   const recipeId = pathname?.split('/').pop();
-
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -87,13 +87,12 @@ export const RecipeDetail = () => {
     try {
       setLoading(true);
   
-      console.log('addComment ', recipeId, "commenttext " ,text, 'user ',user)
       // Call the createComment service
       const newComment = await createComment(recipeId, text, user);
 
-  
       // Update comments in local state
       setComments((prevComments) => [newComment, ...prevComments]);
+      setSuccessMessage("Comment submitted successfully!");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Failed to add comment.");
@@ -104,9 +103,21 @@ export const RecipeDetail = () => {
   
 
   if (loading) return <Loader />;
-  if (error) return <ErrorMessage message={error} />;
+  // if (error) return <ErrorMessage message={error} />;
 
   return (
+    <>{error && (
+      <Toast message={error} type="error" onClose={() => setError(null)} />
+    )}
+    {successMessage && (
+      <Toast
+        message={successMessage}
+        type="success"
+        onClose={() => setSuccessMessage(null)}
+      />
+    )}
+    
+    
     <div className="max-w-4xl mx-auto p-6">
       {/* Full-width image */}
       <Image
@@ -184,6 +195,7 @@ export const RecipeDetail = () => {
         </section>
       </div>
     </div>
+    </>
   );
 };
 

@@ -8,12 +8,7 @@ import {
   getDoc,
   doc,
   updateDoc,
-  //   Timestamp,
-  //   arrayUnion,
-  //   arrayRemove,
 } from "firebase/firestore";
-// import cloudinary from "../lib/cloudinary.config";
-
 interface Rating {
   userId: string;
   rating: number;

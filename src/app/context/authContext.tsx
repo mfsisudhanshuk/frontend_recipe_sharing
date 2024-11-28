@@ -4,12 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { onAuthStateChanged, signOut as firebaseSignOut, User as FirebaseUser } from 'firebase/auth'
 import { loginUser, registerUser } from '@/lib/authService'
 import { auth } from '@/lib/fireStoreConfig'
-
-interface User {
-  id: string
-  email: string;
-  name: string;
-}
+import { User } from '../components/CommentRecipe'
 
 interface AuthContextType {
   user: User | null
