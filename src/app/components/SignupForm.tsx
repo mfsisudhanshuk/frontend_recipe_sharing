@@ -35,7 +35,6 @@ export const Register = () => {
   const router = useRouter();
 
   // Register form submit handler
-// Register form submit handler
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleSubmit = async (values: any) => {
     setLoading(true);

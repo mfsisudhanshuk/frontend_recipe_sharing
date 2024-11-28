@@ -63,7 +63,7 @@ export const RecipeDetail = () => {
 
         // Fetch comments for the recipe
         const fetchedComments = await fetchComments(recipeId);
-        console.log('fetchedComments ', fetchedComments)
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setComments(fetchedComments as any[]);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
