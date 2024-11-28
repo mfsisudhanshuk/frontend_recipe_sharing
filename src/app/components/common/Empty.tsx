@@ -1,8 +1,6 @@
 'use client';
 
 import React from "react";
-// import NOT_FOUND from "../../assets/not_found.png";
-import Image from 'next/image'
 
 export const Empty: React.FC = () => {
   return (
@@ -10,13 +8,7 @@ export const Empty: React.FC = () => {
     className="w-screen flex justify-center items-center"
     style={{ height: "100vh" }}
   >
-    <Image
-      src={'https://via.placeholder.com/350x150'} //TODO: Update it
-      alt="No results"
-      className="max-w-full max-h-full object-contain"
-      width={500}
-      height={500}
-    />
+    No data is found
   </div>
   
   );
