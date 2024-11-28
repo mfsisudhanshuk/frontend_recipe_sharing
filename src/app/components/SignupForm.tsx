@@ -51,9 +51,8 @@ const handleSubmit = async (values: any) => {
         setSuccessMessage('Successful request accepted');
         router.push("/");
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     } catch (error: any) {
-      console.log('error ', error)
       setError("Registration failed. Please try again.");
     } finally {
       setLoading(false);

@@ -62,7 +62,6 @@ export const registerUser = async (userData: {
     return { message: "User registered successfully", id: user.uid };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.log('error ', error);
     return { error: error.message };
   }
 };

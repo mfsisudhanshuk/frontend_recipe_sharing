@@ -1,15 +1,12 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { NextRequest, NextResponse } from 'next/server';
 
-console.log('cloudinary secret ', process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET)
-
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
   api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function POST(req: NextRequest) {
   if (req.method !== 'POST') {
     return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
@@ -35,8 +32,6 @@ export async function POST(req: NextRequest) {
       ).end(Buffer.from(fileBuffer));
     });
 
-    console.log('result ', result);
-
     if (typeof result === 'object' && 'secure_url' in result!) {
       return NextResponse.json({ url: result.secure_url });
     } else {
@@ -47,7 +42,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
   }
 }
-
-// export async function GET() {
-//   return Response.json({ message: 'Hello World' })
-// }
