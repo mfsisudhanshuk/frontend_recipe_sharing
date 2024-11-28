@@ -3,12 +3,15 @@
 import React, { useState } from "react";
 import { Button } from "./common/Button";
 
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+}
 interface CommentFormProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onAddComment: (recipeId: string, text: string, user: any) => Promise<void>;
+  onAddComment: (recipeId: string, text: string, user: User) => Promise<void>;
   recipeId: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any;
+  user: User;
 }
 
 export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment,recipeId, user }) => {
@@ -20,7 +23,6 @@ export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment,recipeId,
     if (!text) return;
     try {
       setLoading(true);
-      console.log("text .. " , text)
       await onAddComment(recipeId, text, user);
       setText("");
     } catch (error) {

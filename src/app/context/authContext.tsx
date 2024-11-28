@@ -7,8 +7,8 @@ import { auth } from '@/lib/fireStoreConfig'
 
 interface User {
   id: string
-  email?: string | null
-  name?: string | null
+  email: string;
+  name: string;
 }
 
 interface AuthContextType {
@@ -50,8 +50,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (firebaseUser) {
         setUser({
           id: firebaseUser.uid,
-          email: firebaseUser.email,
-          name: firebaseUser.displayName,
+          email: firebaseUser.email!,
+          name: firebaseUser.displayName!,
         })
       } else {
         setUser(null)

@@ -9,7 +9,6 @@ interface CommentProps {
 }
 
 export const Comment: React.FC<CommentProps> = ({ name, commentText, timestamp }) => {
-  console.log("Comment ", name, " < ", commentText, ", ", timestamp)
   return (
     <div className="border-b border-gray-300 pb-4 mb-4">
       <h4 className="text-sm font-bold text-gray-800">{name}</h4>
