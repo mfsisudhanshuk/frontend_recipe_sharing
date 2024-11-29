@@ -31,6 +31,7 @@ interface Recipe {
   steps: string;
   rating: string;
   image: string;
+  averageRating: string;
 }
 
 export const RecipeDetail = () => {
@@ -135,7 +136,7 @@ export const RecipeDetail = () => {
         {/* Like count */}
         <div className="mt-4 flex items-center gap-4">
           <span className="text-gray-600 font-medium">
-            ❤️ {recipe?.rating} Likes
+            ❤️ {recipe?.averageRating} Likes
           </span>
         </div>
 

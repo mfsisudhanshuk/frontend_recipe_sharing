@@ -29,7 +29,7 @@ interface Recipe {
 export const getAllRecipes = async (
   ingredient?: string,
   time?: number,
-  //rating?: number
+  rating?: number
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any[]> => {
   try {
@@ -64,9 +64,9 @@ export const getAllRecipes = async (
       }
 
       // Filter by rating (greater than or equal to)
-      // if (rating && rating > 0) {
-      //   matches = matches && recipe.averageRating >= rating;
-      // }
+      if (rating && rating > 0) {
+        matches = matches && recipe.averageRating >= rating;
+      }
 
       return matches;
     });
