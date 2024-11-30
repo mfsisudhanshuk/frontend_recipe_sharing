@@ -11,7 +11,7 @@ import {
   RECIPE_LABEL,
   IMAGE_PLACEHOLDER,
 } from "../../utils/constants";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { Toast } from "../../components/common/Toast";
 import { Loader } from "../../components/common/Loader";
 import { createRecipe, uploadRecipeImage } from "@/lib/recipeService";
@@ -24,7 +24,7 @@ interface recipeData {
   steps: string;
   rating: number;
   image: File | null;
-};
+}
 
 // Validation Schema
 const validationSchema = Yup.object({
@@ -42,7 +42,7 @@ const validationSchema = Yup.object({
     .required(RECIPE_VALIDATION_ERRORS.RATING_REQUIRED),
 });
 
-export default function AddRecipe () {
+export default function AddRecipe() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -77,24 +77,28 @@ export default function AddRecipe () {
         image: imageUrl || IMAGE_PLACEHOLDER,
       };
 
-      const result = await createRecipe(recipeData,user );
+      const result = await createRecipe(recipeData, user);
       setSuccessMessage(result?.message);
       router.push("/");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log('error ', error);
-      setError(error?.message || 'Something went wrong, Please try again!');
+      console.log("error ", error);
+      setError(error?.message || "Something went wrong, Please try again!");
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading && !imageLoading ) return <Loader />;
-  
+  if (loading && !imageLoading) return <Loader />;
+
   return (
     <>
       {successMessage && (
-        <Toast message={successMessage} type="success" onClose={() => setSuccessMessage(null)} />
+        <Toast
+          message={successMessage}
+          type="success"
+          onClose={() => setSuccessMessage(null)}
+        />
       )}
 
       {error && (
@@ -140,22 +144,24 @@ export default function AddRecipe () {
                   {({ remove, push, form }) => (
                     <div>
                       {/* // eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                      {form.values.ingredients.map((_: unknown, index: number) => (
-                        <div key={index} className="flex mb-2">
-                          <Field
-                            name={`ingredients[${index}]`}
-                            placeholder={`Ingredient ${index + 1}`}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 mr-2"
-                          />
-                          <Button
-                            type="button"
-                            onClick={() => remove(index)}
-                            className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      ))}
+                      {form.values.ingredients.map(
+                        (_: unknown, index: number) => (
+                          <div key={index} className="flex mb-2">
+                            <Field
+                              name={`ingredients[${index}]`}
+                              placeholder={`Ingredient ${index + 1}`}
+                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 mr-2"
+                            />
+                            <Button
+                              type="button"
+                              onClick={() => remove(index)}
+                              className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        )
+                      )}
                       <Button
                         type="button"
                         onClick={() => push("")}
@@ -255,7 +261,7 @@ export default function AddRecipe () {
                   }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                 />
-                 {imageLoading && (
+                {imageLoading && (
                   <div className="flex items-center mt-2">
                     <span>Uploading Image...</span>
                   </div>
@@ -279,4 +285,4 @@ export default function AddRecipe () {
       </div>
     </>
   );
-};
+}

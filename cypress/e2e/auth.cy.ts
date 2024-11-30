@@ -3,7 +3,6 @@ describe("Registration flow ", () => {
     // Start from the index page
     cy.visit("http://localhost:3000/");
 
-   
     // Find a link with an href attribute containing "Registration" and click it
     cy.get(".flex.space-x-4 > :nth-child(2)").click();
 
@@ -24,7 +23,6 @@ describe("Registration flow ", () => {
       password: "password123",
       confirmPassword: "password123",
     };
-
 
     // Fill in valid data
     cy.get('input[name="name"]').type(userData.name);

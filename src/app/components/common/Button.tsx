@@ -1,10 +1,10 @@
 // components/common/Button.tsx
-import React from 'react';
+import React from "react";
 
 interface ButtonProps {
   onClick?: () => void;
   children: React.ReactNode;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   className?: string;
   disabled?: boolean;
 }
@@ -12,10 +12,10 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = ({
   onClick,
   children,
-  type = 'button',
-  className = '',
+  type = "button",
+  className = "",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  disabled
+  disabled,
 }) => {
   return (
     <button

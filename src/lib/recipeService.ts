@@ -30,7 +30,7 @@ export const getAllRecipes = async (
   ingredient?: string,
   time?: number,
   rating?: number
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any[]> => {
   try {
     const recipesCollection = collection(db, "recipes");
@@ -70,7 +70,7 @@ export const getAllRecipes = async (
 
       return matches;
     });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Error fetching recipes: " + error.message);
   }
@@ -80,8 +80,13 @@ export const getAllRecipes = async (
  * Create a new recipe in Firestore.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const createRecipe = async (recipeData: any, user: any): Promise<any> => {
-
+export const createRecipe = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  recipeData: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<any> => {
   try {
     const recipesCollection = collection(db, "recipes");
     const newRecipe = {
@@ -165,7 +170,7 @@ export const rateRecipe = async (
     await updateDoc(docRef, { ratings: existingRatings, averageRating });
 
     return { recipeId, averageRating, totalRatings, ratings: existingRatings };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(`Error updating rating: ${error.message}`);
   }
@@ -176,13 +181,13 @@ export const rateRecipe = async (
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const uploadRecipeImage = async (file: File): Promise<string> => {
   const formData = new FormData();
-  formData.append('image', file);
+  formData.append("image", file);
   const response = await fetch("/api/upload", {
     method: "POST",
-    body: formData
+    body: formData,
   });
   if (!response.ok) {
-    throw new Error('Failed to upload image');
+    throw new Error("Failed to upload image");
   }
 
   const data = await response.json();

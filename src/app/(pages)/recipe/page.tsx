@@ -6,7 +6,10 @@ import ErrorMessage from "@/app/components/common/ErrorMessage";
 import { Loader } from "@/app/components/common/Loader";
 import { Select } from "@/app/components/common/Select";
 import { RecipeCard } from "@/app/components/RecipeCard";
-import { PREPARATION_TIME_FILTER_OPTIONS, RATING_FILTER_OPTIONS } from "@/app/utils/constants";
+import {
+  PREPARATION_TIME_FILTER_OPTIONS,
+  RATING_FILTER_OPTIONS,
+} from "@/app/utils/constants";
 import { getAllRecipes } from "@/lib/recipeService";
 import { useEffect, useState } from "react";
 
@@ -29,21 +32,20 @@ const Home = () => {
   const [selectedTime, setSelectedTime] = useState<number>(0);
   const [selectedRating, setSelectedRating] = useState<number>(0);
 
-
   const fetchRecipes = async (ingredient = "", time = 0) => {
     setLoading(true);
     setError(null);
     try {
       const data = await getAllRecipes(ingredient, time);
       setRecipes(data);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setError("Failed to fetch recipes: " + error.message);
     } finally {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchRecipes();
   }, [selectedRating, selectedTime]);

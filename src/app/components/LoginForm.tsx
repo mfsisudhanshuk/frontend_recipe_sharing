@@ -43,7 +43,6 @@ export default function LoginForm() {
       onSubmit={handleSubmit}
       className="max-w-sm mx-auto p-4 border rounded shadow"
     >
-
       {message &&
         (message.type === "success" ? (
           <Toast

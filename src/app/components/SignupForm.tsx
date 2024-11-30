@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 // RegistrationForm.tsx
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { Loader } from "./common/Loader";
 import { REGISTER_VALIDATION_ERRORS } from "../utils/constants";
 import { Input } from "./common/Input";
@@ -16,15 +16,20 @@ import { registerUser } from "@/lib/authService";
 // Validation Schema with Yup
 const validationSchema = Yup.object({
   name: Yup.string().required(REGISTER_VALIDATION_ERRORS.NAME_REQUIRED),
-  email: Yup.string().matches(
-    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    REGISTER_VALIDATION_ERRORS.EMAIL_INVALID
-  ).required(REGISTER_VALIDATION_ERRORS.EMAIL_REQUIRED),
+  email: Yup.string()
+    .matches(
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      REGISTER_VALIDATION_ERRORS.EMAIL_INVALID
+    )
+    .required(REGISTER_VALIDATION_ERRORS.EMAIL_REQUIRED),
   password: Yup.string()
     .min(8, REGISTER_VALIDATION_ERRORS.PASSWORD_MIN_LENGTH)
     .required(REGISTER_VALIDATION_ERRORS.PASSWORD_REQUIRED),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], REGISTER_VALIDATION_ERRORS.CONFIRM_PASSWORD_MATCH)
+    .oneOf(
+      [Yup.ref("password")],
+      REGISTER_VALIDATION_ERRORS.CONFIRM_PASSWORD_MATCH
+    )
     .required(REGISTER_VALIDATION_ERRORS.CONFIRM_PASSWORD),
 });
 
@@ -35,22 +40,22 @@ export const Register = () => {
   const router = useRouter();
 
   // Register form submit handler
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const handleSubmit = async (values: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = async (values: any) => {
     setLoading(true);
     setError(null);
 
     try {
       const { ...userData } = values;
       const response = await registerUser(userData);
-      
+
       if (response?.error) {
         setError(response.error);
       } else {
-        setSuccessMessage('Successful request accepted');
+        setSuccessMessage("Successful request accepted");
         router.push("/");
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     } catch (error: any) {
       setError("Registration failed. Please try again.");
     } finally {

@@ -1,4 +1,12 @@
-import { collection, addDoc, where, getDocs, query, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  where,
+  getDocs,
+  query,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { db } from "./fireStoreConfig";
 
 /**
@@ -12,7 +20,7 @@ export const createComment = async (
   commentText: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> => {
   try {
     if (!recipeId || !commentText || !user) {
@@ -49,7 +57,6 @@ export const createComment = async (
       throw new Error("You have already commented on this recipe.");
     }
 
-
     const newComment = {
       recipeId,
       comment: commentText,
@@ -63,35 +70,34 @@ export const createComment = async (
 
     const docRef = await addDoc(commentsCollection, newComment);
     return { id: docRef.id, ...newComment };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Error creating comment: " + error.message);
   }
 };
-
 
 /**
  * Fetch all comments for a given recipe from Firestore.
  * @param recipeId - ID of the recipe.
  */
 export const fetchComments = async (recipeId: string) => {
-    try {
-      if (!recipeId) {
-        throw new Error("Recipe ID is required.");
-      }
-  
-      const commentsCollection = collection(db, "comments");
-      const q = query(commentsCollection, where("recipeId", "==", recipeId));
-      const querySnapshot = await getDocs(q);
-  
-      const comments = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-  
-      return comments;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      throw new Error("Error fetching comments: " + error.message);
+  try {
+    if (!recipeId) {
+      throw new Error("Recipe ID is required.");
     }
-  };
+
+    const commentsCollection = collection(db, "comments");
+    const q = query(commentsCollection, where("recipeId", "==", recipeId));
+    const querySnapshot = await getDocs(q);
+
+    const comments = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return comments;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw new Error("Error fetching comments: " + error.message);
+  }
+};

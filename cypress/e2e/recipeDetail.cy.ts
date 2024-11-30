@@ -28,7 +28,9 @@ describe("Check comment", () => {
       if ($body.find(".hidden > :nth-child(1):contains('Login')").length > 0) {
         // User is not logged in
         cy.log("User is not logged in.");
-        cy.get(".hidden > :nth-child(1)").contains("Login").should("be.visible");
+        cy.get(".hidden > :nth-child(1)")
+          .contains("Login")
+          .should("be.visible");
       } else if ($body.find(".hidden > .px-4:contains('Logout')").length > 0) {
         // User is logged in
         cy.log("User is logged in.");
@@ -41,6 +43,5 @@ describe("Check comment", () => {
         throw new Error("Authentication status could not be determined.");
       }
     });
-
   });
 });

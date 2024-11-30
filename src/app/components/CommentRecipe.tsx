@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
 import { Button } from "./common/Button";
@@ -14,7 +14,11 @@ interface CommentFormProps {
   user: User;
 }
 
-export const CommentForm: React.FC<CommentFormProps> = ({ onAddComment,recipeId, user }) => {
+export const CommentForm: React.FC<CommentFormProps> = ({
+  onAddComment,
+  recipeId,
+  user,
+}) => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 

@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "./fireStoreConfig";
 import { collection, doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "./fireStoreConfig";
@@ -41,7 +45,11 @@ export const registerUser = async (userData: {
 
   try {
     // Create user with Firebase Authentication
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
 
     // Update user profile with name
@@ -74,7 +82,11 @@ export const loginUser = async (userData: {
 
   try {
     // Sign in user with Firebase Authentication
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
     const token = await user.getIdToken();
     document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict; Secure`; // 1 week expiry
