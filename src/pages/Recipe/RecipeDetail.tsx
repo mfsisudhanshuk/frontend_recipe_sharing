@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { CommentForm } from "./CommentRecipe";
 import { Comment } from "./Comment";
 import { useParams } from "react-router-dom";
@@ -79,11 +79,13 @@ export const RecipeDetail = () => {
         <Toast message={error} type="error" onClose={() => setError(null)} />
       )}
       {/* Full-width image */}
-      <img
-        src={recipe?.image}
-        alt={recipe?.title}
-        className="w-full h-1/3 object-cover rounded-lg shadow-md"
-      />
+      <Suspense fallback={<div>Loading image...</div>}>
+        <img
+          src={recipe?.image}
+          alt={recipe?.title}
+          className="w-full h-1/3 object-cover rounded-lg shadow-md"
+        />
+      </Suspense>
 
       {/* Recipe details */}
       <div className="mt-6 px-4">

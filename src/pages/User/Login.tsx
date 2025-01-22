@@ -23,8 +23,8 @@ const validationSchema = Yup.object({
     .min(8, LOGIN_VALIDATION_ERRORS.PASSWORD_MIN_LENGTH)
     .required(LOGIN_VALIDATION_ERRORS.PASSWORD_REQUIRED),
 });
-
-export const Login = () => {
+ 
+const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const dispatch = useDispatch(); // Get dispatch from Redux
@@ -88,3 +88,6 @@ export const Login = () => {
     </div>
   );
 };
+
+
+export default Login;
