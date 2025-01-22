@@ -46,7 +46,7 @@ const NavMenu = ({
   </div>
 );
 
-export const Header = () => {
+const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -150,3 +150,5 @@ export const Header = () => {
     </header>
   );
 };
+
+export default Header;

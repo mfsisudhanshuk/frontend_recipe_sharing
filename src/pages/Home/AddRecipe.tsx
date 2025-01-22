@@ -39,7 +39,7 @@ const validationSchema = Yup.object({
     .required(RECIPE_VALIDATION_ERRORS.RATING_REQUIRED),
 });
 
-export const AddRecipe = () => {
+const AddRecipe = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -291,3 +291,5 @@ export const AddRecipe = () => {
     </>
   );
 };
+
+export default AddRecipe;

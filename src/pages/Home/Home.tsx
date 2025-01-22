@@ -18,7 +18,7 @@ interface Recipe {
   averageRating: number;
 }
 
-export const Home = () => {
+const Home = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -110,3 +110,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;

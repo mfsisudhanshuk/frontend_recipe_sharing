@@ -26,7 +26,7 @@ const validationSchema = Yup.object({
     .required(REGISTER_VALIDATION_ERRORS.CONFIRM_PASSWORD),
 });
 
-export const Register = () => {
+const Register = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -117,3 +117,5 @@ export const Register = () => {
     </div>
   );
 };
+
+export default Register;
